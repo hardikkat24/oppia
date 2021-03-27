@@ -68,7 +68,9 @@ TYPESCRIPT_CHECKS_CMDS = [PYTHON_CMD, '-m', 'scripts.typescript_checks']
 STRICT_TYPESCRIPT_CHECKS_CMDS = [
     PYTHON_CMD, '-m', 'scripts.typescript_checks', '--strict_checks']
 GIT_IS_DIRTY_CMD = 'git status --porcelain --untracked-files=no'
+MYPY_MODULE = 'scripts.run_mypy_checks'
 
+strictly_typed_files = ['core/controllers']
 
 class ChangedBranch(python_utils.OBJECT):
     """Context manager class that changes branch when there are modified files
@@ -324,6 +326,13 @@ def start_linter(files):
     """Starts the lint checks and returns the returncode of the task."""
     task = subprocess.Popen(
         [PYTHON_CMD, '-m', LINTER_MODULE, LINTER_FILE_FLAG] + files)
+    task.communicate()
+    return task.returncode
+
+
+def start_mypy_checks():
+    task = subprocess.Popen(
+        [PYTHON_CMD, '-m', MYPY_MODULE])
     task.communicate()
     return task.returncode
 

@@ -4,6 +4,9 @@ import subprocess
 
 # import python_utils
 
+# list of strictly typed files
+strict_typed_files = ['core/controllers/admin.py', 'core/controllers/base.py', 'core/controllers/admin_test.py']
+
 NOT_STRICT_CONFIG_FILE_PATH = os.path.join('.','mypy.ini')
 STRICT_CONFIG_FILE_PATH = os.path.join('.','mypy-strict.ini')
 
@@ -17,7 +20,12 @@ _PARSER.add_argument(
     help='If true, checks typing in strict mode',
     action='store_true')
 
-files = ['core/domain/*', 'core/controllers/']
+_PARSER.add_argument(
+    '--files',
+    help='Files to type-check',
+    action='extend',
+    nargs='+'
+    )
 
 def main(args=None):
     unused_parsed_args = _PARSER.parse_args(args=args)
@@ -28,9 +36,16 @@ def main(args=None):
     else:
         path = NOT_STRICT_CONFIG_FILE_PATH
 
-    subprocess.call(
-        ['mypy', '--config-file', path],
-        stdin=subprocess.PIPE)
+    if unused_parsed_args.files:
+        subprocess.call(
+            ['mypy', '--config-file', path, ] + unused_parsed_args.files,
+            stdin=subprocess.PIPE)
+
+    # take files from config-file
+    else:
+        subprocess.call(
+            ['mypy', '--config-file', path] + strict_typed_files ,
+            stdin=subprocess.PIPE)
 
 
 if __name__ == '__main__': # pragma: no cover
