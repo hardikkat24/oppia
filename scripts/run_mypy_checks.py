@@ -37,13 +37,13 @@ def main(args=None):
         path = NOT_STRICT_CONFIG_FILE_PATH
 
     if unused_parsed_args.files:
-        subprocess.call(
+        process = subprocess.Popen(
             ['mypy', '--config-file', path, ] + unused_parsed_args.files,
             stdin=subprocess.PIPE)
 
     # take files from config-file
     else:
-        subprocess.call(
+        process = subprocess.Popen(
             ['mypy', '--config-file', path] + strict_typed_files ,
             stdin=subprocess.PIPE)
 
