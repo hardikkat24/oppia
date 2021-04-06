@@ -4,8 +4,15 @@ import subprocess
 
 # import python_utils
 
-# list of strictly typed files
-strict_typed_files = ['core/controllers/admin.py', 'core/controllers/base.py', 'core/controllers/admin_test.py']
+# list of non-strictly typed files
+not_strict_typed_files = [
+    'core/controllers/base.py',
+    'core/controllers/admin.py',
+    'core/controllers/base_test.py',
+    'core/controllers/admin_test.py',
+    'scripts',
+    'third_party'
+]
 
 CONFIG_FILE_PATH = os.path.join('.','mypy-strict.ini')
 
@@ -33,9 +40,10 @@ def main(args=None):
 
     # take files from config-file
     else:
-        process = subprocess.Popen(
-            ['mypy', '--config-file', CONFIG_FILE_PATH] + strict_typed_files ,
-            stdin=subprocess.PIPE)
+        cmd = ['mypy', '--exclude', '|'.join(not_strict_typed_files),
+        '--config-file', CONFIG_FILE_PATH, '.']
+
+        process = subprocess.Popen(cmd, stdin=subprocess.PIPE)
 
 
 if __name__ == '__main__': # pragma: no cover
