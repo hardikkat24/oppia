@@ -11,7 +11,6 @@ not_strict_typed_files_and_directories = [
     'third_party',
     'extensions/',
     'jobs/',
-    'core/controllers/admin.py',
 ]
 
 # list of typed files
