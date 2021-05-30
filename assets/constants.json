@@ -1,0 +1,44 @@
+{
+  "MAX_COMMIT_MESSAGE_LENGTH": 375,
+  "CLASSROOM_URL_FRAGMENT_FOR_UNATTACHED_TOPICS": "staging",
+  "ALL_CATEGORIES": [
+    "Algebra",
+    "Algorithms",
+    "Architecture"
+  ],
+  "DEFAULT_CLASSROOM_URL_FRAGMENT": "math",
+  "CAN_SEND_ANALYTICS_EVENTS": true,
+  "SVG_ATTRS_WHITELIST": {
+    "a": [
+      "about",
+      "alignment-baseline",
+      "baseline-shift",
+      "class"
+    ],
+    "altglyph": [
+      "about",
+      "alignment-baseline",
+      "baseline-shift"
+    ],
+    "altglyphdef": [
+      "about",
+      "class",
+      "content"
+    ]
+    },
+
+    "SUPPORTED_CONTENT_LANGUAGES": [{
+    "code": "en",
+    "description": "English",
+    "direction": "ltr"
+  }, {
+    "code": "ar",
+    "description": "العربية (Arabic)",
+    "direction": "rtl"
+  }, {
+    "code": "sq",
+    "description": "shqip (Albanian)",
+    "direction": "ltr"
+  }]
+
+}

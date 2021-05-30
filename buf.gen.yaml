@@ -2,3 +2,6 @@ version: v1beta1
 plugins:
   - name: python
     out: proto
+
+  - name: mypy
+    out: stubs
