@@ -329,6 +329,12 @@ def start_linter(files):
     task.communicate()
     return task.returncode
 
+def start_mypy_checks():
+    task = subprocess.Popen(
+        ['python3', '-m', 'scripts.run_mypy_checks'])
+    task.communicate()
+    return task.returncode
+
 
 def start_mypy_checks():
     task = subprocess.Popen(
@@ -517,6 +523,11 @@ def main(args=None):
                     python_utils.PRINT(
                         'Push failed, please correct the linting issues above.')
                     sys.exit(1)
+
+            print('MYPYYYYYYY')
+            x = start_mypy_checks()
+            print(x)
+            print('FINISHHHHH')
 
             typescript_checks_status = 0
             if does_diff_include_ts_files(files_to_lint):
