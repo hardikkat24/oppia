@@ -332,15 +332,10 @@ def start_linter(files):
 def start_mypy_checks():
     task = subprocess.Popen(
         ['python3', '-m', 'scripts.run_mypy_checks'])
-    task.communicate()
+    x = task.communicate()
+    print(x)
     return task.returncode
 
-
-def start_mypy_checks():
-    task = subprocess.Popen(
-        [PYTHON_CMD, '-m', MYPY_MODULE])
-    task.communicate()
-    return task.returncode
 
 
 def run_script_and_get_returncode(cmd_list):
@@ -505,65 +500,65 @@ def main(args=None):
     refs = get_refs()
     collected_files = collect_files_being_pushed(refs, remote)
     # Only interfere if we actually have something to lint (prevent annoyances).
-    if collected_files and has_uncommitted_files():
-        python_utils.PRINT(
-            'Your repo is in a dirty state which prevents the linting from'
-            ' working.\nStash your changes or commit them.\n')
-        sys.exit(1)
+    # if collected_files and has_uncommitted_files():
+    #     python_utils.PRINT(
+    #         'Your repo is in a dirty state which prevents the linting from'
+    #         ' working.\nStash your changes or commit them.\n')
+    #     sys.exit(1)
 
-    check_for_backend_python_library_inconsistencies()
+    # check_for_backend_python_library_inconsistencies()
 
     for branch, (modified_files, files_to_lint) in collected_files.items():
         with ChangedBranch(branch):
-            if not modified_files and not files_to_lint:
-                continue
-            if files_to_lint:
-                lint_status = start_linter(files_to_lint)
-                if lint_status != 0:
-                    python_utils.PRINT(
-                        'Push failed, please correct the linting issues above.')
-                    sys.exit(1)
+            # if not modified_files and not files_to_lint:
+            #     continue
+            # if files_to_lint:
+            #     lint_status = start_linter(files_to_lint)
+            #     if lint_status != 0:
+            #         python_utils.PRINT(
+            #             'Push failed, please correct the linting issues above.')
+            #         sys.exit(1)
 
             print('MYPYYYYYYY')
             x = start_mypy_checks()
             print(x)
             print('FINISHHHHH')
 
-            typescript_checks_status = 0
-            if does_diff_include_ts_files(files_to_lint):
-                typescript_checks_status = run_script_and_get_returncode(
-                    TYPESCRIPT_CHECKS_CMDS)
-            if typescript_checks_status != 0:
-                python_utils.PRINT(
-                    'Push aborted due to failing typescript checks.')
-                sys.exit(1)
+            # typescript_checks_status = 0
+            # if does_diff_include_ts_files(files_to_lint):
+            #     typescript_checks_status = run_script_and_get_returncode(
+            #         TYPESCRIPT_CHECKS_CMDS)
+            # if typescript_checks_status != 0:
+            #     python_utils.PRINT(
+            #         'Push aborted due to failing typescript checks.')
+            #     sys.exit(1)
 
-            strict_typescript_checks_status = 0
-            if does_diff_include_ts_files(files_to_lint):
-                strict_typescript_checks_status = run_script_and_get_returncode(
-                    STRICT_TYPESCRIPT_CHECKS_CMDS)
-            if strict_typescript_checks_status != 0:
-                python_utils.PRINT(
-                    'Push aborted due to failing typescript checks in '
-                    'strict mode.')
-                sys.exit(1)
+            # strict_typescript_checks_status = 0
+            # if does_diff_include_ts_files(files_to_lint):
+            #     strict_typescript_checks_status = run_script_and_get_returncode(
+            #         STRICT_TYPESCRIPT_CHECKS_CMDS)
+            # if strict_typescript_checks_status != 0:
+            #     python_utils.PRINT(
+            #         'Push aborted due to failing typescript checks in '
+            #         'strict mode.')
+            #     sys.exit(1)
 
-            frontend_status = 0
-            ci_check_status = 0
-            if does_diff_include_js_or_ts_files(files_to_lint):
-                frontend_status = run_script_and_get_returncode(
-                    FRONTEND_TEST_CMDS)
-            if frontend_status != 0:
-                python_utils.PRINT(
-                    'Push aborted due to failing frontend tests.')
-                sys.exit(1)
-            if does_diff_include_ci_config_or_js_files(files_to_lint):
-                ci_check_status = run_script_and_get_returncode(
-                    CI_PROTRACTOR_CHECK_CMDS)
-            if ci_check_status != 0:
-                python_utils.PRINT(
-                    'Push aborted due to failing e2e test configuration check.')
-                sys.exit(1)
+            # frontend_status = 0
+            # ci_check_status = 0
+            # if does_diff_include_js_or_ts_files(files_to_lint):
+            #     frontend_status = run_script_and_get_returncode(
+            #         FRONTEND_TEST_CMDS)
+            # if frontend_status != 0:
+            #     python_utils.PRINT(
+            #         'Push aborted due to failing frontend tests.')
+            #     sys.exit(1)
+            # if does_diff_include_ci_config_or_js_files(files_to_lint):
+            #     ci_check_status = run_script_and_get_returncode(
+            #         CI_PROTRACTOR_CHECK_CMDS)
+            # if ci_check_status != 0:
+            #     python_utils.PRINT(
+            #         'Push aborted due to failing e2e test configuration check.')
+            #     sys.exit(1)
     return
 
 
