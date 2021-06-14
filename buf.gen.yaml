@@ -9,3 +9,6 @@ plugins:
 
   - name: ts
     out: extensions/classifiers/proto
+
+  - name: mypy
+    out: proto_files

@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+message constants {
+    bool CAN_SEND_ANALYTICS_EVENTS = 1;
+    string CLASSROOM_URL_FRAGMENT_FOR_UNATTACHED_TOPICS = 2;
+    string DEFAULT_CLASSROOM_URL_FRAGMENT = 3;
+    repeated string ALL_CATEGORIES = 4;
+    int32 MAX_COMMIT_MESSAGE_LENGTH = 5;
+
+    message svg_attrs_whitelist {
+        repeated string a = 1;
+        repeated string altglyph = 2;
+        repeated  string altglyphdef = 3;
+    }
+    svg_attrs_whitelist SVG_ATTRS_WHITELIST = 6;
+
+    message supported_content_languages {
+        string code = 1;
+        string description = 2;
+        string direction = 3;
+    }
+    repeated supported_content_languages SUPPORTED_CONTENT_LANGUAGES = 7;
+}
+
