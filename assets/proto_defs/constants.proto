@@ -2,23 +2,186 @@ syntax = "proto3";
 
 message constants {
     bool CAN_SEND_ANALYTICS_EVENTS = 1;
+
     string CLASSROOM_URL_FRAGMENT_FOR_UNATTACHED_TOPICS = 2;
+
     string DEFAULT_CLASSROOM_URL_FRAGMENT = 3;
+
     repeated string ALL_CATEGORIES = 4;
-    int32 MAX_COMMIT_MESSAGE_LENGTH = 5;
+
+    string ACTIVITY_TYPE_EXPLORATION = 5;
+    string ACTIVITY_TYPE_COLLECTION = 6;
+    repeated string DISABLED_EXPLORATION_IDS = 7;
+
+    string TESTING_CONSTANT = 8;
+
+    int32 LIBRARY_TILE_WIDTH_PX = 9;
+
+    string DASHBOARD_TYPE_CREATOR = 10;
+    string DASHBOARD_TYPE_LEARNER = 11;
+
+    string DEFAULT_COLOR = 12;
+    string DEFAULT_THUMBNAIL_ICON = 13;
+    string DEFAULT_CATEGORY_ICON = 14;
+
+    string ACTION_ACCEPT_SUGGESTION = 15;
+    string ACTION_REJECT_SUGGESTION = 16;
+
+    message skill_status_options {
+        string ALL = 1;
+        string ASSIGNED = 2;
+        string UNASSIGNED = 3;
+    }
+    skill_status_options SKILL_STATUS_OPTIONS = 17;
+
+    message topic_skill_dashboard_sort_options {
+        string IncreasingCreatedOn = 1;
+        string DecreasingCreatedOn = 2;
+        string IncreasingUpdatedOn = 3;
+        string DecreasingUpdatedOn = 4;
+    }
+    topic_skill_dashboard_sort_options TOPIC_SKILL_DASHBOARD_SORT_OPTIONS = 18;
+
+    repeated string SEARCH_DROPDOWN_CATEGORIES = 19;
+
+    string DEFAULT_LANGUAGE_CODE = 20;
+
+    message allowed_thumbnail_bg_colors {
+        repeated string chapter = 1;
+        repeated string topic = 2;
+        repeated string subtopic = 3;
+        repeated string story = 4;
+    }
+    allowed_thumbnail_bg_colors ALLOWED_THUMBNAIL_BG_COLORS = 21;
+
+    repeated string ALLOWED_IMAGE_FORMATS = 22;
+
+    string TASK_TYPE_HIGH_BOUNCE_RATE = 23;
+    string TASK_TYPE_INEFFECTIVE_FEEDBACK_LOOP = 24;
+    string TASK_TYPE_SUCCESSIVE_INCORRECT_ANSWERS = 25;
+    string TASK_TYPE_NEEDS_GUIDING_RESPONSES = 26;
+
+    string TASK_STATUS_OPEN = 27;
+    string TASK_STATUS_OBSOLETE = 28;
+    string TASK_STATUS_RESOLVED = 29;
+
+    string TASK_ENTITY_TYPE_EXPLORATION = 30;
+
+    string TASK_TARGET_TYPE_STATE = 31;
+
+    string ROLE_OWNER = 32;
+    string ROLE_EDITOR = 33;
+    string ROLE_VOICE_ARTIST = 34;
+    string ROLE_VIEWER = 35;
+
+    string MATH_SVG_FILENAME_REGEX = 36;
 
     message svg_attrs_whitelist {
         repeated string a = 1;
         repeated string altglyph = 2;
-        repeated  string altglyphdef = 3;
+        repeated string altglyphdef = 3;
+        repeated string altglyphitem = 4;
+        repeated string animatecolor = 5;
+        repeated string animatemotion = 6;
+        repeated string animatetransform = 7;
+        repeated string audio = 8;
+        repeated string canvas = 9;
+        repeated string circle = 10;
+        repeated string clippath = 11;
+        repeated string defs = 12;
+        repeated string desc = 13;
+        repeated string ellipse = 14;
+        repeated string feblend = 15;
+        repeated string fecolormatrix = 16;
+        repeated string fecomponenttransfer = 17;
+        repeated string fecomposite = 18;
+        repeated string feconvolvematrix = 19;
+        repeated string fediffuselighting = 20;
+        repeated string fedisplacementmap = 21;
+        repeated string fedistantlight = 22;
+        repeated string feflood = 23;
+        repeated string fefunca = 24;
+        repeated string fefuncb = 25;
+        repeated string fefuncg = 26;
+        repeated string fefuncr = 27;
+        repeated string fegaussianblur = 3;
+        repeated string femerge = 3;
+        repeated string femergenode = 3;
+        repeated string femorphology = 3;
+        repeated string feoffset = 3;
+        repeated string fepointlight = 3;
+        repeated string fespecularlighting = 3;
+        repeated string fespotlight = 3;
+        repeated string fetile = 3;
+        repeated string feturbulence = 3;
+        repeated string filter = 3;
+        repeated string font = 3;
+        repeated string g = 3;
+        repeated string glyph = 3;
+        repeated string glyphref = 3;
+        repeated string hkern = 3;
+        repeated string image = 3;
+        repeated string line = 3;
+        repeated string lineargradient = 3;
+        repeated string marker = 3;
+        repeated string mask = 3;
+        repeated string metadata = 3;
+        repeated string mpath = 3;
+        repeated string path = 3;
+        repeated string pattern = 3;
+        repeated string polygon = 3;
+        repeated string polyline = 3;
+        repeated string radialgradient = 3;
+        repeated string rect = 3;
+        repeated string stop = 3;
+        repeated string style = 3;
+        repeated string svg = 3;
+        repeated string switch = 3;
+        repeated string symbol = 3;
+        repeated string text = 3;
+        repeated string textpath = 3;
+        repeated string title = 3;
+        repeated string tref = 3;
+        repeated string tspan = 3;
+        repeated string video = 3;
+        repeated string view = 3;
+        repeated string vkern = 3;
     }
-    svg_attrs_whitelist SVG_ATTRS_WHITELIST = 6;
+    svg_attrs_whitelist SVG_ATTRS_WHITELIST = 37;
+
+    message categories_to_colors {
+        string Mathematics = 1;
+        string Algebra = 2;
+        string Arithmetic = 3;
+        string Calculus = 4;
+        string Logic = 5;
+        string Combinatorics = 6;
+        string Graph_Theory = 7;
+        string Probability = 8;
+        string Statistics = 9;
+        string Geometry = 10;
+        string Trigonometry = 11;
+
+        string Algorithms = 12;
+        string Computing = 13;
+        string Programming = 14;
+
+        string Astronomy
+        string Biology
+        string Chemistry
+        string Engineering
+        string Environment
+        string Medicine
+        string Physics
+    }
 
     message supported_content_languages {
         string code = 1;
         string description = 2;
         string direction = 3;
     }
-    repeated supported_content_languages SUPPORTED_CONTENT_LANGUAGES = 7;
+    repeated supported_content_languages SUPPORTED_CONTENT_LANGUAGES = ;
+
+    int32 MAX_COMMIT_MESSAGE_LENGTH = ;
 }
 
