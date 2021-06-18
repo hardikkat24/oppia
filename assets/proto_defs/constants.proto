@@ -300,6 +300,44 @@ message constants {
 
     repeated string SKILL_DIFFICULTIES = 70;
 
+    message skill_difficulty_label_to_float {
+        float Easy = 1;
+        float Medium = 2;
+        float Hard = 3;
+    }
+    skill_difficulty_label_to_float SKILL_DIFFICULTY_LABEL_TO_FLOAT = 71;
+
+    bool ENABLE_PREREQUISITE_SKILLS = 72;
+
+    bool ENABLE_NEW_STRUCTURE_VIEWER_UPDATES = 73;
+
+    bool ENABLE_SOLICIT_ANSWER_DETAILS_FEATURE = 74;
+
+    int32 MAX_SKILLS_PER_QUESTION = 75;
+
+    int32 MAX_QUESTIONS_PER_SKILL = 76;
+
+    int32 NUM_EXPLORATIONS_PER_REVIEW_TEST = 77;
+
+    int32 NUM_QUESTIONS_PER_PAGE = 78;
+
+    int32 OPPORTUNITIES_PAGE_SIZE = 79;
+
+    int32 MAX_CHARS_IN_CLASSROOM_URL_FRAGMENT = 80;
+    int32 MAX_CHARS_IN_TOPIC_NAME = 81;
+    int32 MAX_CHARS_IN_ABBREV_TOPIC_NAME = 82;
+
+    int32 MAX_CHARS_IN_TOPIC_URL_FRAGMENT = 83;
+    int32 MAX_CHARS_IN_TOPIC_DESCRIPTION = 84;
+    int32 MAX_CHARS_IN_SUBTOPIC_TITLE = 85;
+    int32 MAX_CHARS_IN_SKILL_DESCRIPTION
+    int32 MAX_CHARS_IN_STORY_TITLE
+    int32
+    int32
+    int32
+    int32
+
+
     int32 MAX_COMMIT_MESSAGE_LENGTH = ;
 }
 
