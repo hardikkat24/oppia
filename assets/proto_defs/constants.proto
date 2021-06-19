@@ -1,5 +1,8 @@
 syntax = "proto3";
 
+import "google/protobuf/any.proto";
+
+
 message constants {
     bool CAN_SEND_ANALYTICS_EVENTS = 1;
 
@@ -104,48 +107,48 @@ message constants {
         repeated string fefuncb = 25;
         repeated string fefuncg = 26;
         repeated string fefuncr = 27;
-        repeated string fegaussianblur = 3;
-        repeated string femerge = 3;
-        repeated string femergenode = 3;
-        repeated string femorphology = 3;
-        repeated string feoffset = 3;
-        repeated string fepointlight = 3;
-        repeated string fespecularlighting = 3;
-        repeated string fespotlight = 3;
-        repeated string fetile = 3;
-        repeated string feturbulence = 3;
-        repeated string filter = 3;
-        repeated string font = 3;
-        repeated string g = 3;
-        repeated string glyph = 3;
-        repeated string glyphref = 3;
-        repeated string hkern = 3;
-        repeated string image = 3;
-        repeated string line = 3;
-        repeated string lineargradient = 3;
-        repeated string marker = 3;
-        repeated string mask = 3;
-        repeated string metadata = 3;
-        repeated string mpath = 3;
-        repeated string path = 3;
-        repeated string pattern = 3;
-        repeated string polygon = 3;
-        repeated string polyline = 3;
-        repeated string radialgradient = 3;
-        repeated string rect = 3;
-        repeated string stop = 3;
-        repeated string style = 3;
-        repeated string svg = 3;
-        repeated string switch = 3;
-        repeated string symbol = 3;
-        repeated string text = 3;
-        repeated string textpath = 3;
-        repeated string title = 3;
-        repeated string tref = 3;
-        repeated string tspan = 3;
-        repeated string video = 3;
-        repeated string view = 3;
-        repeated string vkern = 3;
+        repeated string fegaussianblur = 28;
+        repeated string femerge = 29;
+        repeated string femergenode = 30;
+        repeated string femorphology = 31;
+        repeated string feoffset = 32;
+        repeated string fepointlight = 33;
+        repeated string fespecularlighting = 34;
+        repeated string fespotlight = 35;
+        repeated string fetile = 36;
+        repeated string feturbulence = 37;
+        repeated string filter = 38;
+        repeated string font = 39;
+        repeated string g = 40;
+        repeated string glyph = 41;
+        repeated string glyphref = 42;
+        repeated string hkern = 43;
+        repeated string image = 44;
+        repeated string line = 45;
+        repeated string lineargradient = 46;
+        repeated string marker = 47;
+        repeated string mask = 48;
+        repeated string metadata = 49;
+        repeated string mpath = 50;
+        repeated string path = 51;
+        repeated string pattern = 52;
+        repeated string polygon = 53;
+        repeated string polyline = 54;
+        repeated string radialgradient = 55;
+        repeated string rect = 56;
+        repeated string stop = 57;
+        repeated string style = 58;
+        repeated string svg = 59;
+        repeated string switch = 60;
+        repeated string symbol = 61;
+        repeated string text = 62;
+        repeated string textpath = 63;
+        repeated string title = 64;
+        repeated string tref = 65;
+        repeated string tspan = 66;
+        repeated string video = 67;
+        repeated string view = 68;
+        repeated string vkern = 69;
     }
     svg_attrs_whitelist SVG_ATTRS_WHITELIST = 37;
 
@@ -227,7 +230,7 @@ message constants {
     message supported_audio_languages {
         string id = 1;
         string description = 2;
-        string relatedLanguages = 3;
+        repeated string relatedLanguages = 3;
         string direction = 4;
     }
     repeated supported_audio_languages SUPPORTED_AUDIO_LANGUAGES = 43;
@@ -249,11 +252,7 @@ message constants {
     }
     translation_tips TRANSLATION_TIPS = 45;
 
-    message allowed_creator_dashboard_display_prefs {
-        string card = 1;
-        string list = 2;
-    }
-    allowed_creator_dashboard_display_prefs ALLOWED_CREATOR_DASHBOARD_DISPLAY_PREFS = 45;
+
 
     message interactions {
         string name = 1;
@@ -330,14 +329,251 @@ message constants {
     int32 MAX_CHARS_IN_TOPIC_URL_FRAGMENT = 83;
     int32 MAX_CHARS_IN_TOPIC_DESCRIPTION = 84;
     int32 MAX_CHARS_IN_SUBTOPIC_TITLE = 85;
-    int32 MAX_CHARS_IN_SKILL_DESCRIPTION
-    int32 MAX_CHARS_IN_STORY_TITLE
-    int32
-    int32
-    int32
-    int32
+    int32 MAX_CHARS_IN_SKILL_DESCRIPTION = 86;
+    int32 MAX_CHARS_IN_STORY_TITLE = 87;
+    int32 MAX_CHARS_IN_STORY_DESCRIPTION = 88;
+    int32 MAX_CHARS_IN_CHAPTER_TITLE = 89;
+    int32 MAX_CHARS_IN_CHAPTER_DESCRIPTION = 90;
+    int32 MAX_CHARS_IN_MISCONCEPTION_NAME = 91;
+
+    int32 MAX_CHARS_IN_STORY_URL_FRAGMENT = 92;
+
+    int32 MAX_CHARS_IN_SUBTOPIC_URL_FRAGMENT = 93;
+
+    int32 MAX_CHARS_IN_META_TAG_CONTENT = 94;
+
+    int32 MAX_CHARS_IN_PAGE_TITLE_FRAGMENT_FOR_WEB = 95;
 
 
-    int32 MAX_COMMIT_MESSAGE_LENGTH = ;
+    // NEW_STATE_TEMPLATE DEFINITION BEGINS
+    message Content {
+        string html = 1;
+        string content_id = 2;
+    }
+
+    message Customization_args {
+    }
+
+    message Feedback {
+        string content_id = 1;
+        string html = 2;
+    }
+
+    message Default_outcome {
+        string dest = 1;
+        Feedback feedback = 2;
+        bool labelled_as_correct = 3;
+        repeated google.protobuf.Any param_changes = 4;
+        google.protobuf.Any refresher_exploration_id = 5;
+        google.protobuf.Any missing_prerequisite_skill_id = 6;
+    }
+
+    message Interaction {
+        google.protobuf.Any id = 1;
+        Customization_args customization_args = 2;
+        repeated google.protobuf.Any answer_groups = 3;
+        Default_outcome default_outcome = 4;
+        repeated google.protobuf.Any confirmed_unclassified_answers = 5;
+        repeated google.protobuf.Any hints = 6;
+        google.protobuf.Any solution = 7;
+    }
+
+    message Content1 {
+    }
+
+    message Default_outcome1 {
+    }
+
+    message Voiceovers_mapping {
+        Content1 content = 1;
+        Default_outcome1 default_outcome = 2;
+    }
+
+    message Recorded_voiceovers {
+        Voiceovers_mapping voiceovers_mapping = 1;
+    }
+
+    message Content2 {
+    }
+
+    message Default_outcome2 {
+    }
+
+    message Translations_mapping {
+        Content2 content = 1;
+        Default_outcome2 default_outcome = 2;
+    }
+
+    message Written_translations {
+        Translations_mapping translations_mapping = 1;
+    }
+
+    message new_state_template {
+        google.protobuf.Any classifier_model_id = 1;
+        google.protobuf.Any linked_skill_id = 2;
+        Content content = 3;
+        Interaction interaction = 4;
+        int32 next_content_id_index = 5;
+        repeated google.protobuf.Any param_changes = 6;
+        Recorded_voiceovers recorded_voiceovers = 7;
+        bool solicit_answer_details = 8;
+        bool card_is_checkpoint = 9;
+        Written_translations written_translations = 10;
+    }
+
+    new_state_template NEW_STATE_TEMPLATE = 96;
+    // NEW_STATE_TEMPLATE DEFINITION ENDS
+
+    string ANALYTICS_ID = 97;
+    string SITE_NAME_FOR_ANALYTICS = 98;
+
+    string FIREBASE_CONFIG_API_KEY = 99;
+    string FIREBASE_CONFIG_AUTH_DOMAIN = 100;
+    string FIREBASE_CONFIG_PROJECT_ID = 101;
+    string FIREBASE_CONFIG_STORAGE_BUCKET = 102;
+    string FIREBASE_CONFIG_MESSAGING_SENDER_ID = 103;
+    string FIREBASE_CONFIG_APP_ID = 104;
+    string FIREBASE_CONFIG_GOOGLE_CLIENT_ID = 105;
+
+    bool ALLOW_YAML_FILE_UPLOAD = 106;
+
+    string TAG_REGEX = 107;
+
+    string VALID_URL_FRAGMENT_REGEX = 108;
+
+    string VALID_SKILL_MISCONCEPTION_ID_REGEX = 109;
+
+    repeated string INVALID_PARAMETER_NAMES = 110;
+
+    message greek_letter_names_to_symbols {
+        string alpha = 1;
+        string beta = 2;
+        string gamma = 3;
+        string delta = 4;
+        string epsilon = 5;
+        string zeta = 6;
+        string eta = 7;
+        string theta = 8;
+        string iota = 9;
+        string kappa = 10;
+        string lambda = 11;
+        string mu = 12;
+        string nu = 13;
+        string xi = 14;
+        string pi = 15;
+        string rho = 16;
+        string sigma = 17;
+        string tau = 18;
+        string upsilon = 19;
+        string phi = 20;
+        string chi = 21;
+        string psi = 22;
+        string omega = 23;
+        string GGamma = 24;
+        string DDelta = 25;
+        string TTheta = 26;
+        string LLambda = 27;
+        string XXi = 28;
+        string PPi = 29;
+        string SSigma = 30;
+        string PPhi = 31;
+        string PPsi = 32;
+        string OOmega = 33;
+    }
+    greek_letter_names_to_symbols GREEK_LETTER_NAMES_TO_SYMBOLS = 111;
+
+    repeated string VALID_ALGEBRAIC_IDENTIFIERS = 112;
+
+    repeated string VALID_CUSTOM_OSK_LETTERS = 113;
+
+    int32 MAX_CUSTOM_LETTERS_FOR_OSK = 114;
+
+    repeated string MATH_FUNCTION_NAMES = 115;
+
+    string OSK_MAIN_TAB = 116;
+    string OSK_FUNCTIONS_TAB = 117;
+    string OSK_LETTERS_TAB = 118;
+
+    string CUSTOM_LETTERS_LATIN_TAB = 119;
+    string CUSTOM_LETTERS_GREEK_TAB = 120;
+
+    message position_of_terms_mapping {
+        string name = 1;
+        string humanReadableName = 2;
+    }
+    repeated position_of_terms_mapping POSITION_OF_TERMS_MAPPING = 121;
+
+    message math_interaction_placeholders {
+        string AlgebraicExpressionInput = 1;
+        string NumericExpressionInput = 2;
+        string MathEquationInput = 3;
+    }
+    math_interaction_placeholders MATH_INTERACTION_PLACEHOLDERS = 122;
+
+    bool SHOW_TRAINABLE_UNRESOLVED_ANSWERS = 123;
+
+    string DEFAULT_TWITTER_SHARE_MESSAGE_EDITOR = 124;
+
+    string OPPORTUNITY_TYPE_SKILL = 125;
+    string OPPORTUNITY_TYPE_TRANSLATION = 126;
+    string OPPORTUNITY_TYPE_VOICEOVER = 127;
+
+    string GCS_RESOURCE_BUCKET_NAME = 128;
+
+    bool ENABLE_EXP_FEEDBACK_FOR_LOGGED_OUT_USERS = 129;
+
+    bool ENABLE_ACCOUNT_DELETION = 130;
+
+    bool ENABLE_ACCOUNT_EXPORT = 131;
+
+    google.protobuf.Any OPPIA_AVATAR_LINK_URL = 132;
+
+    int32 MAX_USERNAME_LENGTH = 133;
+
+    int32 MAX_STATE_NAME_LENGTH = 134;
+
+    repeated string PLATFORM_PARAMETER_ALLOWED_BROWSER_TYPES = 135;
+
+    repeated string PLATFORM_PARAMETER_ALLOWED_PLATFORM_TYPES = 136;
+
+    repeated string PLATFORM_PARAMETER_ALLOWED_APP_VERSION_FLAVORS = 137;
+
+    string PLATFORM_PARAMETER_APP_VERSION_WITHOUT_HASH_REGEXP = 138;
+
+    string PLATFORM_PARAMETER_APP_VERSION_WITH_HASH_REGEXP = 139;
+
+    int32 MAX_COMMIT_MESSAGE_LENGTH = 140;
+    int32 MAX_REVIEW_MESSAGE_LENGTH = 141;
+
+    // EMAIL_DASHBOARD_PREDICATE_DEFINITION START
+    message Validators {
+        string id = 1;
+        int32 min_value = 2;
+    }
+
+    message Schema {
+        string type = 1;
+        repeated Validators validators = 2;
+    }
+
+    message email_dashboard_predicate_definition {
+        string backend_id = 1;
+        string backend_attr = 2;
+        string description = 3;
+        Schema schema = 4;
+        bool default_value = 5;
+    }
+    repeated email_dashboard_predicate_definition EMAIL_DASHBOARD_PREDICATE_DEFINITION = 142;
+    // EMAIL_DASHBOARD_PREDICATE_DEFINITION END
+
+    bool DEV_MODE = 143;
+    bool EMULATOR_MODE = 144;
+
+    message allowed_creator_dashboard_display_prefs {
+        string CARD = 1;
+        string LIST = 2;
+    }
+    allowed_creator_dashboard_display_prefs ALLOWED_CREATOR_DASHBOARD_DISPLAY_PREFS = 145;
+
 }
 
