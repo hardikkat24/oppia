@@ -68,7 +68,7 @@ def get_exploration_opportunity_summary_from_model(model):
         model.incomplete_translation_language_codes +
         model.language_codes_needing_voice_artists +
         model.language_codes_with_assigned_voice_artists)
-    supported_language_codes = set([language['id'] for language in (
+    supported_language_codes = set([language.id for language in (
         constants.SUPPORTED_AUDIO_LANGUAGES)])
     missing_language_codes = list(
         supported_language_codes - set_of_all_languages)
@@ -142,7 +142,7 @@ def _create_exploration_opportunity_summary(topic, story, exploration):
     """
 
     audio_language_codes = set([
-        language['id'] for language in constants.SUPPORTED_AUDIO_LANGUAGES])
+        language.id for language in constants.SUPPORTED_AUDIO_LANGUAGES])
 
     complete_translation_languages = set(
         exploration.get_languages_with_complete_translation())

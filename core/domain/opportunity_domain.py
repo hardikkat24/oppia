@@ -154,7 +154,7 @@ class ExplorationOpportunitySummary(python_utils.OBJECT):
                 'Expected content_count to be a non-negative integer, '
                 'received %s' % self.content_count)
 
-        allowed_language_codes = [language['id'] for language in (
+        allowed_language_codes = [language.id for language in (
             constants.SUPPORTED_AUDIO_LANGUAGES)]
 
         if not set(self.language_codes_with_assigned_voice_artists).isdisjoint(

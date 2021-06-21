@@ -71,5 +71,6 @@ with python_utils.open_file(os.path.join('assets', 'constants.json'), 'r') as f:
 with python_utils.open_file('release_constants.json', 'r') as f:
     release_constants = Constants(json.loads(f.read()))  # pylint:disable=invalid-name
 
-
-print(constants.SKILL_STATUS_OPTIONS.ALL)
+print(constants.ALL_CATEGORIES)
+constants.ALL_CATEGORIES.append('temo')
+print(constants.ALL_CATEGORIES)

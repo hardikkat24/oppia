@@ -152,57 +152,58 @@ message constants {
     }
     svg_attrs_whitelist SVG_ATTRS_WHITELIST = 37;
 
-    message categories_to_colors {
-        string Mathematics = 1;
-        string Algebra = 2;
-        string Arithmetic = 3;
-        string Calculus = 4;
-        string Logic = 5;
-        string Combinatorics = 6;
-        string Graph_Theory = 7;
-        string Probability = 8;
-        string Statistics = 9;
-        string Geometry = 10;
-        string Trigonometry = 11;
+    // message categories_to_colors {
+    //     string Mathematics = 1;
+    //     string Algebra = 2;
+    //     string Arithmetic = 3;
+    //     string Calculus = 4;
+    //     string Logic = 5;
+    //     string Combinatorics = 6;
+    //     string Graph_Theory = 7;
+    //     string Probability = 8;
+    //     string Statistics = 9;
+    //     string Geometry = 10;
+    //     string Trigonometry = 11;
 
-        string Algorithms = 12;
-        string Computing = 13;
-        string Programming = 14;
+    //     string Algorithms = 12;
+    //     string Computing = 13;
+    //     string Programming = 14;
 
-        string Astronomy = 15;
-        string Biology = 16;
-        string Chemistry = 17;
-        string Engineering = 18;
-        string Environment = 19;
-        string Medicine = 20;
-        string Physics = 21;
+    //     string Astronomy = 15;
+    //     string Biology = 16;
+    //     string Chemistry = 17;
+    //     string Engineering = 18;
+    //     string Environment = 19;
+    //     string Medicine = 20;
+    //     string Physics = 21;
 
-        string Architecture = 22;
-        string Art = 23;
-        string Music = 24;
-        string Philosophy = 25;
-        string Poetry = 26;
+    //     string Architecture = 22;
+    //     string Art = 23;
+    //     string Music = 24;
+    //     string Philosophy = 25;
+    //     string Poetry = 26;
 
-        string English = 27;
-        string Languages = 28;
-        string Latin = 29;
-        string Reading = 30;
-        string Spanish = 31;
-        string Gaulish = 32;
+    //     string English = 27;
+    //     string Languages = 28;
+    //     string Latin = 29;
+    //     string Reading = 30;
+    //     string Spanish = 31;
+    //     string Gaulish = 32;
 
-        string Business = 33;
-        string Economics = 34;
-        string Geography = 35;
-        string Government = 36;
-        string History = 37;
-        string Law = 38;
+    //     string Business = 33;
+    //     string Economics = 34;
+    //     string Geography = 35;
+    //     string Government = 36;
+    //     string History = 37;
+    //     string Law = 38;
 
-        string Education = 39;
-        string Puzzles = 40;
-        string Sport = 41;
-        string Welcome = 42;
-    }
-    categories_to_colors CATEGORIES_TO_COLORS = 38;
+    //     string Education = 39;
+    //     string Puzzles = 40;
+    //     string Sport = 41;
+    //     string Welcome = 42;
+    // }
+    // categories_to_colors CATEGORIES_TO_COLORS = 38;
+    map<string, string> CATEGORIES_TO_COLORS = 38;
 
     repeated string VALID_RTE_COMPONENTS_FOR_ANDROID = 39;
 

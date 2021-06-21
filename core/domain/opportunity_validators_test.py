@@ -84,7 +84,7 @@ class ExplorationOpportunitySummaryModelValidatorTests(
         topic.subtopics = [
             topic_domain.Subtopic(
                 1, 'Title', ['skill_id_2'], 'image.svg',
-                constants.ALLOWED_THUMBNAIL_BG_COLORS['subtopic'][0],
+                constants.ALLOWED_THUMBNAIL_BG_COLORS.subtopic[0],
                 'dummy-subtopic-three')]
         subtopic_page = (
             subtopic_page_domain.SubtopicPage.create_default_subtopic_page(

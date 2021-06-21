@@ -2793,7 +2793,7 @@ title: Title
             url_fragment='topic',
             thumbnail_filename='topic.svg',
             thumbnail_bg_color=(
-                constants.ALLOWED_THUMBNAIL_BG_COLORS['topic'][0]),
+                constants.ALLOWED_THUMBNAIL_BG_COLORS.topic[0]),
             description='description', canonical_story_ids=None,
             additional_story_ids=None, uncategorized_skill_ids=None,
             subtopics=None, next_subtopic_id=0,

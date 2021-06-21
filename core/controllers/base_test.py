@@ -956,7 +956,7 @@ class I18nDictsTests(test_utils.GenericTestBase):
         self.assertGreater(len(master_key_list), 0)
 
         supported_language_filenames = [
-            ('%s.json' % language_details['id'])
+            ('%s.json' % language_details.id)
             for language_details in constants.SUPPORTED_SITE_LANGUAGES]
 
         filenames = os.listdir(

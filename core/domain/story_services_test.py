@@ -149,7 +149,7 @@ class StoryServicesUnitTests(test_utils.GenericTestBase):
                 'property_name': (
                     story_domain.STORY_PROPERTY_THUMBNAIL_BG_COLOR),
                 'old_value': None,
-                'new_value': constants.ALLOWED_THUMBNAIL_BG_COLORS['story'][0]
+                'new_value': constants.ALLOWED_THUMBNAIL_BG_COLORS.story[0]
             }),
             story_domain.StoryChange({
                 'cmd': story_domain.CMD_UPDATE_STORY_PROPERTY,
@@ -168,7 +168,7 @@ class StoryServicesUnitTests(test_utils.GenericTestBase):
         self.assertEqual(story.thumbnail_filename, 'image.svg')
         self.assertEqual(
             story.thumbnail_bg_color,
-            constants.ALLOWED_THUMBNAIL_BG_COLORS['story'][0])
+            constants.ALLOWED_THUMBNAIL_BG_COLORS.story[0])
         self.assertEqual(story.version, 3)
         self.assertEqual(story.meta_tag_content, 'new story meta tag content')
 
@@ -177,7 +177,7 @@ class StoryServicesUnitTests(test_utils.GenericTestBase):
         self.assertEqual(story_summary.node_titles, ['Title 1'])
         self.assertEqual(
             story_summary.thumbnail_bg_color,
-            constants.ALLOWED_THUMBNAIL_BG_COLORS['story'][0])
+            constants.ALLOWED_THUMBNAIL_BG_COLORS.story[0])
         self.assertEqual(story_summary.thumbnail_filename, 'image.svg')
 
     def test_update_story_node_properties(self):
@@ -241,7 +241,7 @@ class StoryServicesUnitTests(test_utils.GenericTestBase):
             story.story_contents.nodes[1].thumbnail_filename, 'image.svg')
         self.assertEqual(
             story.story_contents.nodes[1].thumbnail_bg_color,
-            constants.ALLOWED_THUMBNAIL_BG_COLORS['chapter'][0])
+            constants.ALLOWED_THUMBNAIL_BG_COLORS.chapter[0])
         self.assertEqual(
             story.story_contents.nodes[1].destination_node_ids,
             [self.NODE_ID_1])

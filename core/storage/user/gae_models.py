@@ -76,11 +76,11 @@ class UserSettingsModel(base_models.BaseModel):
     preferred_language_codes = datastore_services.StringProperty(
         repeated=True,
         indexed=True,
-        choices=[lc['code'] for lc in constants.SUPPORTED_CONTENT_LANGUAGES])
+        choices=[lc.code for lc in constants.SUPPORTED_CONTENT_LANGUAGES])
     # System language preference (for I18N).
     preferred_site_language_code = datastore_services.StringProperty(
         default=None, choices=[
-            language['id'] for language in constants.SUPPORTED_SITE_LANGUAGES])
+            language.id for language in constants.SUPPORTED_SITE_LANGUAGES])
     # Audio language preference used for audio translations.
     preferred_audio_language_code = datastore_services.StringProperty(
         default=None, choices=[

@@ -83,7 +83,7 @@ class ExplorationOpportunitySummaryModelRegenerationJobTest(
         topic_1.subtopics = [
             topic_domain.Subtopic(
                 1, 'Title', ['skill_id_1'], 'image.svg',
-                constants.ALLOWED_THUMBNAIL_BG_COLORS['subtopic'][0],
+                constants.ALLOWED_THUMBNAIL_BG_COLORS.subtopic[0],
                 'dummy-subtopic-three')]
         topic_1.next_subtopic_id = 2
         subtopic_page = (
@@ -107,7 +107,7 @@ class ExplorationOpportunitySummaryModelRegenerationJobTest(
         topic_2.subtopics = [
             topic_domain.Subtopic(
                 1, 'Title', ['skill_id_2'], 'image.svg',
-                constants.ALLOWED_THUMBNAIL_BG_COLORS['subtopic'][0],
+                constants.ALLOWED_THUMBNAIL_BG_COLORS.subtopic[0],
                 'dummy-subtopic-three')]
         subtopic_page = (
             subtopic_page_domain.SubtopicPage.create_default_subtopic_page(

@@ -43,7 +43,7 @@ class TopicDomainUnitTests(test_utils.GenericTestBase):
         self.topic.subtopics = [
             topic_domain.Subtopic(
                 1, 'Title', ['skill_id_1'], 'image.svg',
-                constants.ALLOWED_THUMBNAIL_BG_COLORS['subtopic'][0],
+                constants.ALLOWED_THUMBNAIL_BG_COLORS.subtopic[0],
                 'dummy-subtopic-url')]
         self.topic.next_subtopic_id = 2
 
@@ -254,7 +254,7 @@ class TopicDomainUnitTests(test_utils.GenericTestBase):
             topic_domain.Subtopic(
                 1, 'Title', ['skill_id_1', 'skill_id_2', 'skill_id_3'],
                 'image.svg',
-                constants.ALLOWED_THUMBNAIL_BG_COLORS['subtopic'][0],
+                constants.ALLOWED_THUMBNAIL_BG_COLORS.subtopic[0],
                 'dummy-subtopic-three')]
 
         skill_ids = self.topic.subtopics[0].skill_ids
@@ -487,7 +487,7 @@ class TopicDomainUnitTests(test_utils.GenericTestBase):
     def test_subtopic_strict_validation(self):
         self.topic.thumbnail_filename = 'filename.svg'
         self.topic.thumbnail_bg_color = (
-            constants.ALLOWED_THUMBNAIL_BG_COLORS['topic'][0])
+            constants.ALLOWED_THUMBNAIL_BG_COLORS.topic[0])
         self.topic.subtopics[0].skill_ids = []
         self._assert_strict_validation_error(
             'Subtopic with title Title does not have any skills linked')
@@ -734,7 +734,7 @@ class TopicDomainUnitTests(test_utils.GenericTestBase):
         self.topic.subtopics.append(
             topic_domain.Subtopic(
                 'id_2', 'Title2', ['skill_id_2'], 'image.svg',
-                constants.ALLOWED_THUMBNAIL_BG_COLORS['subtopic'][0],
+                constants.ALLOWED_THUMBNAIL_BG_COLORS.subtopic[0],
                 'dummy-title-two'))
         with self.assertRaisesRegexp(
             Exception,
@@ -910,11 +910,11 @@ class TopicDomainUnitTests(test_utils.GenericTestBase):
         self.topic.subtopics = [
             topic_domain.Subtopic(
                 1, 'Title', ['skill_id_1'], 'image.svg',
-                constants.ALLOWED_THUMBNAIL_BG_COLORS['subtopic'][0],
+                constants.ALLOWED_THUMBNAIL_BG_COLORS.subtopic[0],
                 'dummy-subtopic-one'),
             topic_domain.Subtopic(
                 2, 'Another title', ['skill_id_1'], 'image.svg',
-                constants.ALLOWED_THUMBNAIL_BG_COLORS['subtopic'][0],
+                constants.ALLOWED_THUMBNAIL_BG_COLORS.subtopic[0],
                 'dummy-subtopic-two')]
         with self.assertRaisesRegexp(
             Exception,

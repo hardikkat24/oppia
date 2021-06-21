@@ -1169,7 +1169,7 @@ class StoryDomainUnitTests(test_utils.GenericTestBase):
         """
         story_node = story_domain.StoryNode(
             self.NODE_ID_1, 'Title', 'Description', None,
-            constants.ALLOWED_THUMBNAIL_BG_COLORS['chapter'][0],
+            constants.ALLOWED_THUMBNAIL_BG_COLORS.chapter[0],
             [self.NODE_ID_2], [self.SKILL_ID_1], [self.SKILL_ID_2],
             'Outline', False, self.EXP_ID)
         story_contents = story_domain.StoryContents(

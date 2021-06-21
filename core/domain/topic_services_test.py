@@ -425,7 +425,7 @@ class TopicServicesUnitTests(test_utils.GenericTestBase):
             'property_name': 'thumbnail_bg_color',
             'subtopic_id': 1,
             'old_value': None,
-            'new_value': constants.ALLOWED_THUMBNAIL_BG_COLORS['subtopic'][0]
+            'new_value': constants.ALLOWED_THUMBNAIL_BG_COLORS.subtopic[0]
         })]
         topic_services.update_topic_and_subtopic_pages(
             self.user_id_admin, self.TOPIC_ID, changelist,
@@ -437,7 +437,7 @@ class TopicServicesUnitTests(test_utils.GenericTestBase):
         self.assertEqual(topic.subtopics[0].thumbnail_filename, 'image.svg')
         self.assertEqual(
             topic.subtopics[0].thumbnail_bg_color,
-            constants.ALLOWED_THUMBNAIL_BG_COLORS['subtopic'][0])
+            constants.ALLOWED_THUMBNAIL_BG_COLORS.subtopic[0])
 
     def test_cannot_create_topic_change_class_with_invalid_cmd(self):
         with self.assertRaisesRegexp(

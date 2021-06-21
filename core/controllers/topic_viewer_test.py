@@ -67,12 +67,12 @@ class BaseTopicViewerControllerTests(test_utils.GenericTestBase):
         self.topic.uncategorized_skill_ids.append(self.skill_id_1)
         self.topic.subtopics.append(topic_domain.Subtopic(
             1, 'subtopic_name', [self.skill_id_2], 'image.svg',
-            constants.ALLOWED_THUMBNAIL_BG_COLORS['subtopic'][0],
+            constants.ALLOWED_THUMBNAIL_BG_COLORS.subtopic[0],
             'subtopic-name'))
         self.topic.next_subtopic_id = 2
         self.topic.thumbnail_filename = 'Image.svg'
         self.topic.thumbnail_bg_color = (
-            constants.ALLOWED_THUMBNAIL_BG_COLORS['topic'][0])
+            constants.ALLOWED_THUMBNAIL_BG_COLORS.topic[0])
         self.topic.canonical_story_references.append(
             topic_domain.StoryReference.create_default_story_reference(
                 self.story_id_1))
@@ -91,7 +91,7 @@ class BaseTopicViewerControllerTests(test_utils.GenericTestBase):
             'private_topic_name', 'description')
         self.topic.thumbnail_filename = 'Image.svg'
         self.topic.thumbnail_bg_color = (
-            constants.ALLOWED_THUMBNAIL_BG_COLORS['topic'][0])
+            constants.ALLOWED_THUMBNAIL_BG_COLORS.topic[0])
         self.topic.url_fragment = 'private'
         topic_services.save_new_topic(self.admin_id, self.topic)
 
@@ -306,7 +306,7 @@ class TopicPageDataHandlerTests(
         self.topic.uncategorized_skill_ids.append(self.skill_id_1)
         self.topic.thumbnail_filename = 'Image.svg'
         self.topic.thumbnail_bg_color = (
-            constants.ALLOWED_THUMBNAIL_BG_COLORS['topic'][0])
+            constants.ALLOWED_THUMBNAIL_BG_COLORS.topic[0])
         self.topic.practice_tab_is_displayed = True
         subtopic_1 = topic_domain.Subtopic.create_default_subtopic(
             1, 'Subtopic Title 1')
@@ -357,7 +357,7 @@ class TopicPageDataHandlerTests(
         self.topic.uncategorized_skill_ids.append(self.skill_id_1)
         self.topic.thumbnail_filename = 'Image.svg'
         self.topic.thumbnail_bg_color = (
-            constants.ALLOWED_THUMBNAIL_BG_COLORS['topic'][0])
+            constants.ALLOWED_THUMBNAIL_BG_COLORS.topic[0])
         self.topic.practice_tab_is_displayed = True
         subtopic_1 = topic_domain.Subtopic.create_default_subtopic(
             1, 'Subtopic Title 1')
@@ -411,7 +411,7 @@ class TopicPageDataHandlerTests(
             self.topic.uncategorized_skill_ids.append(skill_ids[index])
         self.topic.thumbnail_filename = 'Image.svg'
         self.topic.thumbnail_bg_color = (
-            constants.ALLOWED_THUMBNAIL_BG_COLORS['topic'][0])
+            constants.ALLOWED_THUMBNAIL_BG_COLORS.topic[0])
         self.topic.practice_tab_is_displayed = True
         subtopic_1 = topic_domain.Subtopic.create_default_subtopic(
             1, 'Subtopic Title 1')
@@ -460,7 +460,7 @@ class TopicPageDataHandlerTests(
             self.topic.uncategorized_skill_ids.append(skill_ids[index])
         self.topic.thumbnail_filename = 'Image.svg'
         self.topic.thumbnail_bg_color = (
-            constants.ALLOWED_THUMBNAIL_BG_COLORS['topic'][0])
+            constants.ALLOWED_THUMBNAIL_BG_COLORS.topic[0])
         self.topic.practice_tab_is_displayed = False
         subtopic_1 = topic_domain.Subtopic.create_default_subtopic(
             1, 'Subtopic Title 1')
@@ -511,7 +511,7 @@ class TopicPageDataHandlerTests(
             self.topic.uncategorized_skill_ids.append(skill_ids[index])
         self.topic.thumbnail_filename = 'Image.svg'
         self.topic.thumbnail_bg_color = (
-            constants.ALLOWED_THUMBNAIL_BG_COLORS['topic'][0])
+            constants.ALLOWED_THUMBNAIL_BG_COLORS.topic[0])
         self.topic.practice_tab_is_displayed = True
         subtopic_1 = topic_domain.Subtopic.create_default_subtopic(
             1, 'Subtopic Title 1')
