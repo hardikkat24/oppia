@@ -38,7 +38,7 @@ PREREQUISITES = [
     ('protobuf', '3.13.0', os.path.join(
         'third_party', 'python_libs', 'google')),
 ]
-subprocess.call(['pip2', 'freeze'])
+
 for package_name, version_number, target_path in PREREQUISITES:
     command_text = [
         sys.executable, '-m', 'pip', 'install', '%s==%s'
@@ -49,7 +49,7 @@ for package_name, version_number, target_path in PREREQUISITES:
     output_stderr = current_process.communicate()[1]
     if 'can\'t combine user with prefix' in output_stderr:
         subprocess.check_call(command_text + uextention_text)
-
+subprocess.call(['pip2', 'freeze'])
 
 import python_utils  # isort:skip   pylint: disable=wrong-import-position, wrong-import-order
 
