@@ -34,7 +34,8 @@ PREREQUISITES = [
     ('six', '1.15.0', os.path.join('third_party', 'python_libs')),
     ('certifi', '2020.12.5', os.path.join(
         TOOLS_DIR, 'certifi-2020.12.5')),
-    ('protobuf', '3.13.0', os.path.join('third_party', 'python_libs')),
+    ('protobuf', '3.13.0', os.path.join(
+        'third_party', 'python_libs', 'google')),
 ]
 
 for package_name, version_number, target_path in PREREQUISITES:

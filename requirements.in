@@ -37,4 +37,3 @@ googleapis_common_protos==1.52.0
 webapp2==3.0.0b1
 elasticsearch==7.10.0
 mypy-protobuf==1.24
-
