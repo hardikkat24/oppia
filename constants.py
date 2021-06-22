@@ -71,6 +71,24 @@ with python_utils.open_file(os.path.join('assets', 'constants.json'), 'r') as f:
 with python_utils.open_file('release_constants.json', 'r') as f:
     release_constants = Constants(json.loads(f.read()))  # pylint:disable=invalid-name
 
-print(constants.ALL_CATEGORIES)
-constants.ALL_CATEGORIES.append('temo')
-print(constants.ALL_CATEGORIES)
+# print(constants.SUPPORTED_AUDIO_LANGUAGES)
+
+# temp = constants_pb2.constants.supported_audio_languages()
+# temp.id = 'new_lang'
+# temp.description = 'New language'
+# temp.relatedLanguages.append('new_lang')
+# print(temp)
+
+# temp_constants = constants_pb2.constants()
+# for lang in constants.SUPPORTED_AUDIO_LANGUAGES:
+#     temp_constants.SUPPORTED_AUDIO_LANGUAGES.append(lang)
+
+# temp_constants.SUPPORTED_AUDIO_LANGUAGES.append(temp)
+# print(temp_constants.SUPPORTED_AUDIO_LANGUAGES)
+# print(constants.SUPPORTED_AUDIO_LANGUAGES)
+print(type(constants.SUPPORTED_AUDIO_LANGUAGES[0].id))
+lis = []
+for obj in constants.ALLOWED_EXPLORATION_IN_STORY_INTERACTION_CATEGORIES:
+    lis.extend(obj.interaction_ids)
+
+print(lis)

@@ -1677,7 +1677,7 @@ class WrittenTranslations(python_utils.OBJECT):
                 # Currently, we assume written translations are used by the
                 # voice-artist to voiceover the translated text so written
                 # translations can be in supported audio/voiceover languages.
-                allowed_language_codes = [language['id'] for language in (
+                allowed_language_codes = [language.id for language in (
                     constants.SUPPORTED_AUDIO_LANGUAGES)]
                 if language_code not in allowed_language_codes:
                     raise utils.ValidationError(
@@ -1908,7 +1908,7 @@ class RecordedVoiceovers(python_utils.OBJECT):
                     raise utils.ValidationError(
                         'Expected language_code to be a string, received %s'
                         % language_code)
-                allowed_language_codes = [language['id'] for language in (
+                allowed_language_codes = [language.id for language in (
                     constants.SUPPORTED_AUDIO_LANGUAGES)]
                 if language_code not in allowed_language_codes:
                     raise utils.ValidationError(

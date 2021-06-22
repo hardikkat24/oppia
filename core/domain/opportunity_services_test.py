@@ -40,6 +40,7 @@ from core.domain import user_services
 from core.platform import models
 from core.tests import test_utils
 import feconf
+from proto_files import constants_pb2
 import python_utils
 
 (
@@ -852,16 +853,22 @@ class OpportunityServicesUnitTest(test_utils.GenericTestBase):
         self.assertFalse(
             'new_lang' in opportunity.incomplete_translation_language_codes)
 
-        mock_supported_languages = constants.SUPPORTED_AUDIO_LANGUAGES + [{
-            'id': 'new_lang',
-            'description': 'New language',
-            'relatedLanguages': ['new_lang']
-        }]
-
         self.assertEqual(len(observed_log_messages), 0)
 
+        temp = constants_pb2.constants.supported_audio_languages()
+        temp.id = 'new_lang'
+        temp.description = 'New language'
+        temp.relatedLanguages.append('new_lang')
+
+        temp_constants = constants_pb2.constants()
+        for lang in constants.SUPPORTED_AUDIO_LANGUAGES:
+            temp_constants.SUPPORTED_AUDIO_LANGUAGES.append(lang)
+
+        temp_constants.SUPPORTED_AUDIO_LANGUAGES.append(temp)
+
         with self.swap(logging, 'info', _mock_logging_function), self.swap(
-            constants, 'SUPPORTED_AUDIO_LANGUAGES', mock_supported_languages):
+            constants, 'SUPPORTED_AUDIO_LANGUAGES',
+            temp_constants.SUPPORTED_AUDIO_LANGUAGES):
             opportunities = (
                 opportunity_services
                 .get_exploration_opportunity_summaries_by_ids(['0']))

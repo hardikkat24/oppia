@@ -84,7 +84,7 @@ class UserSettingsModel(base_models.BaseModel):
     # Audio language preference used for audio translations.
     preferred_audio_language_code = datastore_services.StringProperty(
         default=None, choices=[
-            language['id'] for language in constants.SUPPORTED_AUDIO_LANGUAGES])
+            language.id for language in constants.SUPPORTED_AUDIO_LANGUAGES])
 
     # Attributes used for full users only.
 

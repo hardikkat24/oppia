@@ -64,7 +64,7 @@ class AndroidValidationConstantsTest(test_utils.GenericTestBase):
         constants_languages_list = (
             constants.SUPPORTED_CONTENT_LANGUAGES_FOR_ANDROID)
         for obj in constants_interactions_list:
-            interaction_ids_in_constants.extend(obj['interaction_ids'])
+            interaction_ids_in_constants.extend(obj.interaction_ids)
         for obj in constants_languages_list:
             language_ids_in_constants.append(obj['code'])
 

@@ -812,7 +812,7 @@ def is_supported_audio_language_code(language_code):
     Returns:
         bool. Whether the language code is supported audio language code or not.
     """
-    language_codes = [lc['id'] for lc in constants.SUPPORTED_AUDIO_LANGUAGES]
+    language_codes = [lc.id for lc in constants.SUPPORTED_AUDIO_LANGUAGES]
     return language_code in language_codes
 
 
@@ -844,8 +844,8 @@ def get_supported_audio_language_description(language_code):
         Exception. If the given language code is unsupported.
     """
     for language in constants.SUPPORTED_AUDIO_LANGUAGES:
-        if language['id'] == language_code:
-            return language['description']
+        if language.id == language_code:
+            return language.description
     raise Exception('Unsupported audio language code: %s' % language_code)
 
 

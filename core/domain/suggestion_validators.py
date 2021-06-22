@@ -346,7 +346,7 @@ class CommunityContributionStatsModelValidator(
                 validate.
         """
         supported_language_codes = [
-            language_code['id'] for language_code in
+            language_code.id for language_code in
             constants.SUPPORTED_AUDIO_LANGUAGES
         ]
         all_user_contribution_rights_models = (
@@ -402,7 +402,7 @@ class CommunityContributionStatsModelValidator(
                 validate.
         """
         supported_language_codes = [
-            language_code['id'] for language_code in
+            language_code.id for language_code in
             constants.SUPPORTED_AUDIO_LANGUAGES
         ]
         all_translation_suggestion_models_in_review = (
