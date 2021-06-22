@@ -86,9 +86,11 @@ with python_utils.open_file('release_constants.json', 'r') as f:
 # temp_constants.SUPPORTED_AUDIO_LANGUAGES.append(temp)
 # print(temp_constants.SUPPORTED_AUDIO_LANGUAGES)
 # print(constants.SUPPORTED_AUDIO_LANGUAGES)
-print(type(constants.SUPPORTED_AUDIO_LANGUAGES[0].id))
-lis = []
-for obj in constants.ALLOWED_EXPLORATION_IN_STORY_INTERACTION_CATEGORIES:
-    lis.extend(obj.interaction_ids)
+print(constants.SKILL_DIFFICULTY_LABEL_TO_FLOAT[constants.SKILL_DIFFICULTY_EASY])
 
-print(lis)
+constants.SKILL_DIFFICULTY_LABEL_TO_FLOAT['Easy'] = 0.4
+
+
+print(constants.SKILL_DIFFICULTY_LABEL_TO_FLOAT[constants.SKILL_DIFFICULTY_EASY])
+print(constants.NEW_STATE_TEMPLATE.classifier_model_id)
+

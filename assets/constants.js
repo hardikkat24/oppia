@@ -21,10 +21,26 @@ var constants_1 = require("../extensions/classifiers/proto/constants");
 var fs = require('fs');
 var data = fs.readFileSync('assets/constants.json', 'utf8');
 data = JSON.parse(data);
-console.log(data);
 var constants_list = new constants_1.constants();
-constants_list.CAN_SEND_ANALYTICS_EVENTS = true;
-console.log(constants_list['CAN_SEND_ANALYTICS_EVENTS']);
-// const constants_list = constants.fromJSON(data);
-// console.log(constants_list)
+for (var key in data) {
+    console.log(key);
+    convert(data[key], constants_list[key]);
+}
+function convert(data, proto) {
+    try {
+        proto = data;
+        console.log(proto);
+    }
+    catch (error) {
+        console.log('adsssssssssssssssssssssssssssssssssssssssssssssssss');
+        for (var key in data) {
+            console.log(key);
+            convert(data[key], proto[key]);
+        }
+    }
+}
+console.log(constants_list);
+// console.log(data['NEW_STATE_TEMPLATE'])
+// constants_list.NEW_STATE_TEMPLATE = data['NEW_STATE_TEMPLATE']
+// console.log(data['NEW_STATE_TEMPLATE'])
 exports["default"] = constants_list;

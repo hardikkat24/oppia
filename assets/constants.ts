@@ -22,31 +22,36 @@ var fs = require('fs');
 var data = fs.readFileSync('assets/constants.json', 'utf8');
 
 data = JSON.parse(data);
-console.log(data);
 
 const constants_list = new constants();
 
-function deepCopy(obj) {
 
- if(typeof obj === 'object') {
-  return Object.keys(obj)
-   .map(k => ({ [k]: deepCopy(obj[k]) }))
-   .reduce((a, c) => Object.assign(a, c), {});
- }
 
- else if(Array.isArray(obj)) {
-  return obj.map(deepCopy)
- }
- return obj;
+for(var key in data){
+    console.log(key)
+  convert(data[key], constants_list[key]);
 }
 
+function convert(data, proto){
+    try{
+        proto = data;
+        console.log(proto)
+    }
+    catch (error){
+        console.log('adsssssssssssssssssssssssssssssssssssssssssssssssss')
+        for(var key in data){
+            console.log(key)
+          convert(data[key], proto[key]);
+        }
+    }
+}
 
+console.log(constants_list);
 
-constants_list.CAN_SEND_ANALYTICS_EVENTS = true;
+// console.log(data['NEW_STATE_TEMPLATE'])
 
-console.log(constants_list['CAN_SEND_ANALYTICS_EVENTS'])
+// constants_list.NEW_STATE_TEMPLATE = data['NEW_STATE_TEMPLATE']
 
-// const constants_list = constants.fromJSON(data);
-// console.log(constants_list)
+// console.log(data['NEW_STATE_TEMPLATE'])
 
 export default constants_list;

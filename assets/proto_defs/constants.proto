@@ -30,25 +30,15 @@ message constants {
     string ACTION_ACCEPT_SUGGESTION = 15;
     string ACTION_REJECT_SUGGESTION = 16;
 
-    message skill_status_options {
-        string ALL = 1;
-        string ASSIGNED = 2;
-        string UNASSIGNED = 3;
-    }
-    skill_status_options SKILL_STATUS_OPTIONS = 17;
+    map<string, string> SKILL_STATUS_OPTIONS = 17;
 
-    message topic_skill_dashboard_sort_options {
-        string IncreasingCreatedOn = 1;
-        string DecreasingCreatedOn = 2;
-        string IncreasingUpdatedOn = 3;
-        string DecreasingUpdatedOn = 4;
-    }
-    topic_skill_dashboard_sort_options TOPIC_SKILL_DASHBOARD_SORT_OPTIONS = 18;
+    map<string, string> TOPIC_SKILL_DASHBOARD_SORT_OPTIONS = 18;
 
     repeated string SEARCH_DROPDOWN_CATEGORIES = 19;
 
     string DEFAULT_LANGUAGE_CODE = 20;
 
+    // Message not a map because a list for each key.
     message allowed_thumbnail_bg_colors {
         repeated string chapter = 1;
         repeated string topic = 2;
@@ -253,8 +243,6 @@ message constants {
     }
     translation_tips TRANSLATION_TIPS = 45;
 
-
-
     message interactions {
         string name = 1;
         repeated string interaction_ids = 2;
@@ -300,12 +288,7 @@ message constants {
 
     repeated string SKILL_DIFFICULTIES = 70;
 
-    message skill_difficulty_label_to_float {
-        float Easy = 1;
-        float Medium = 2;
-        float Hard = 3;
-    }
-    skill_difficulty_label_to_float SKILL_DIFFICULTY_LABEL_TO_FLOAT = 71;
+    map<string, float> SKILL_DIFFICULTY_LABEL_TO_FLOAT = 71;
 
     bool ENABLE_PREREQUISITE_SKILLS = 72;
 
@@ -347,22 +330,16 @@ message constants {
 
 
     // NEW_STATE_TEMPLATE DEFINITION BEGINS
-    message Content {
+    message content_and_feedback {
         string html = 1;
         string content_id = 2;
     }
 
-    message Customization_args {
-    }
-
-    message Feedback {
-        string content_id = 1;
-        string html = 2;
-    }
+    message empty {}
 
     message Default_outcome {
         string dest = 1;
-        Feedback feedback = 2;
+        content_and_feedback feedback = 2;
         bool labelled_as_correct = 3;
         repeated google.protobuf.Any param_changes = 4;
         google.protobuf.Any refresher_exploration_id = 5;
@@ -371,7 +348,7 @@ message constants {
 
     message Interaction {
         google.protobuf.Any id = 1;
-        Customization_args customization_args = 2;
+        empty customization_args = 2;
         repeated google.protobuf.Any answer_groups = 3;
         Default_outcome default_outcome = 4;
         repeated google.protobuf.Any confirmed_unclassified_answers = 5;
@@ -379,40 +356,23 @@ message constants {
         google.protobuf.Any solution = 7;
     }
 
-    message Content1 {
-    }
-
-    message Default_outcome1 {
-    }
-
-    message Voiceovers_mapping {
-        Content1 content = 1;
-        Default_outcome1 default_outcome = 2;
+    message mapping {
+        empty content = 1;
+        empty default_outcome = 2;
     }
 
     message Recorded_voiceovers {
-        Voiceovers_mapping voiceovers_mapping = 1;
-    }
-
-    message Content2 {
-    }
-
-    message Default_outcome2 {
-    }
-
-    message Translations_mapping {
-        Content2 content = 1;
-        Default_outcome2 default_outcome = 2;
+        mapping voiceovers_mapping = 1;
     }
 
     message Written_translations {
-        Translations_mapping translations_mapping = 1;
+        mapping translations_mapping = 1;
     }
 
     message new_state_template {
         google.protobuf.Any classifier_model_id = 1;
         google.protobuf.Any linked_skill_id = 2;
-        Content content = 3;
+        content_and_feedback content = 3;
         Interaction interaction = 4;
         int32 next_content_id_index = 5;
         repeated google.protobuf.Any param_changes = 6;
@@ -446,42 +406,7 @@ message constants {
 
     repeated string INVALID_PARAMETER_NAMES = 110;
 
-    message greek_letter_names_to_symbols {
-        string alpha = 1;
-        string beta = 2;
-        string gamma = 3;
-        string delta = 4;
-        string epsilon = 5;
-        string zeta = 6;
-        string eta = 7;
-        string theta = 8;
-        string iota = 9;
-        string kappa = 10;
-        string lambda = 11;
-        string mu = 12;
-        string nu = 13;
-        string xi = 14;
-        string pi = 15;
-        string rho = 16;
-        string sigma = 17;
-        string tau = 18;
-        string upsilon = 19;
-        string phi = 20;
-        string chi = 21;
-        string psi = 22;
-        string omega = 23;
-        string GGamma = 24;
-        string DDelta = 25;
-        string TTheta = 26;
-        string LLambda = 27;
-        string XXi = 28;
-        string PPi = 29;
-        string SSigma = 30;
-        string PPhi = 31;
-        string PPsi = 32;
-        string OOmega = 33;
-    }
-    greek_letter_names_to_symbols GREEK_LETTER_NAMES_TO_SYMBOLS = 111;
+    map<string, string> GREEK_LETTER_NAMES_TO_SYMBOLS = 111;
 
     repeated string VALID_ALGEBRAIC_IDENTIFIERS = 112;
 
