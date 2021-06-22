@@ -49,7 +49,7 @@ for package_name, version_number, target_path in PREREQUISITES:
     output_stderr = current_process.communicate()[1]
     if 'can\'t combine user with prefix' in output_stderr:
         subprocess.check_call(command_text + uextention_text)
-subprocess.call(['pip2', 'freeze'])
+subprocess.call(['ls', 'third_party/python_libs/google'])
 
 import python_utils  # isort:skip   pylint: disable=wrong-import-position, wrong-import-order
 
