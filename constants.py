@@ -19,7 +19,7 @@
 from __future__ import absolute_import  # pylint: disable=import-only-modules
 from __future__ import unicode_literals  # pylint: disable=import-only-modules
 
-from google.protobuf.json_format import Parse
+from google.protobuf import json_format
 import json
 import os
 import re
@@ -66,7 +66,7 @@ class Constants(dict):
 constants = constants_pb2.constants()
 with python_utils.open_file(os.path.join('assets', 'constants.json'), 'r') as f:
     # constants = Constants(parse_json_from_js(f))  # pylint:disable=invalid-name
-    Parse(f.read(), constants)
+    json_format.Parse(f.read(), constants)
 
 with python_utils.open_file('release_constants.json', 'r') as f:
     release_constants = Constants(json.loads(f.read()))  # pylint:disable=invalid-name
