@@ -52,4 +52,4 @@ console.log(constants_list);
 
 // console.log(data['NEW_STATE_TEMPLATE'])
 
-export default constants_list;
+export default data;
