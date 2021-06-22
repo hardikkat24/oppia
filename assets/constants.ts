@@ -26,7 +26,6 @@ data = JSON.parse(data);
 const constants_list = new constants();
 
 
-
 for(var key in data){
     console.log(key)
   convert(data[key], constants_list[key]);
@@ -50,7 +49,6 @@ console.log(constants_list);
 
 // console.log(data['NEW_STATE_TEMPLATE'])
 
-// constants_list.NEW_STATE_TEMPLATE = data['NEW_STATE_TEMPLATE']
 
 // console.log(data['NEW_STATE_TEMPLATE'])
 
