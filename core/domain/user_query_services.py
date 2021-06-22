@@ -37,8 +37,8 @@ def _get_user_query_from_model(user_query_model):
         UserQuery. User query domain object.
     """
     attributes = {
-        predicate['backend_attr']: getattr(
-            user_query_model, predicate['backend_attr'])
+        predicate.backend_attr: getattr(
+            user_query_model, predicate.backend_attr)
         for predicate in constants.EMAIL_DASHBOARD_PREDICATE_DEFINITION
     }
     user_query_params = user_query_domain.UserQueryParams(**attributes)

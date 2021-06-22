@@ -345,7 +345,7 @@ class CompletedActivitiesModelValidatorTests(test_utils.AuditJobsTestBase):
         topic.subtopics = [
             topic_domain.Subtopic(
                 1, 'Title', ['skill_id_1'], 'image.svg',
-                constants.ALLOWED_THUMBNAIL_BG_COLORS['subtopic'][0],
+                constants.ALLOWED_THUMBNAIL_BG_COLORS.subtopic[0],
                 'dummy-subtopic-url')]
         topic.next_subtopic_id = 2
         subtopic_page = (
@@ -375,7 +375,7 @@ class CompletedActivitiesModelValidatorTests(test_utils.AuditJobsTestBase):
         topic.subtopics = [
             topic_domain.Subtopic(
                 1, 'Title 1', ['skill_id_1'], 'image.svg',
-                constants.ALLOWED_THUMBNAIL_BG_COLORS['subtopic'][0],
+                constants.ALLOWED_THUMBNAIL_BG_COLORS.subtopic[0],
                 'dummy-subtopic-url-one')]
         topic.next_subtopic_id = 2
         subtopic_page = (
@@ -679,7 +679,7 @@ class IncompleteActivitiesModelValidatorTests(test_utils.AuditJobsTestBase):
         topic.subtopics = [
             topic_domain.Subtopic(
                 1, 'Title', ['skill_id_1'], 'image.svg',
-                constants.ALLOWED_THUMBNAIL_BG_COLORS['subtopic'][0],
+                constants.ALLOWED_THUMBNAIL_BG_COLORS.subtopic[0],
                 'dummy-subtopic-url')]
         topic.next_subtopic_id = 2
         subtopic_page = (
@@ -709,7 +709,7 @@ class IncompleteActivitiesModelValidatorTests(test_utils.AuditJobsTestBase):
         topic.subtopics = [
             topic_domain.Subtopic(
                 1, 'Title 1', ['skill_id_1'], 'image.svg',
-                constants.ALLOWED_THUMBNAIL_BG_COLORS['subtopic'][0],
+                constants.ALLOWED_THUMBNAIL_BG_COLORS.subtopic[0],
                 'dummy-subtopic-url-one')]
         topic.next_subtopic_id = 2
         subtopic_page = (

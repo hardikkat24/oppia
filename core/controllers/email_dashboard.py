@@ -113,7 +113,7 @@ class EmailDashboardDataHandler(base.BaseHandler):
     def _validate(self, data):
         """Validator for data obtained from frontend."""
         predicates = constants.EMAIL_DASHBOARD_PREDICATE_DEFINITION
-        possible_keys = [predicate['backend_attr'] for predicate in predicates]
+        possible_keys = [predicate.backend_attr for predicate in predicates]
 
         for key, _ in data.items():
             if key not in possible_keys:

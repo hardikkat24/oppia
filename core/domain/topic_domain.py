@@ -419,8 +419,9 @@ class Subtopic(python_utils.OBJECT):
         Returns:
             bool. Whether the thumbnail background color is valid or not.
         """
-        return thumbnail_bg_color in constants.ALLOWED_THUMBNAIL_BG_COLORS[
-            'subtopic']
+        return (
+            thumbnail_bg_color in (
+                constants.ALLOWED_THUMBNAIL_BG_COLORS.subtopic))
 
     def validate(self):
         """Validates various properties of the Subtopic object.
@@ -756,8 +757,7 @@ class Topic(python_utils.OBJECT):
         Returns:
             bool. Whether the thumbnail background color is valid or not.
         """
-        return thumbnail_bg_color in constants.ALLOWED_THUMBNAIL_BG_COLORS[
-            'topic']
+        return thumbnail_bg_color in constants.ALLOWED_THUMBNAIL_BG_COLORS.topic
 
     def get_all_skill_ids(self):
         """Returns all the ids of all the skills present in the topic.

@@ -495,11 +495,7 @@ message constants {
     bool DEV_MODE = 143;
     bool EMULATOR_MODE = 144;
 
-    message allowed_creator_dashboard_display_prefs {
-        string CARD = 1;
-        string LIST = 2;
-    }
-    allowed_creator_dashboard_display_prefs ALLOWED_CREATOR_DASHBOARD_DISPLAY_PREFS = 145;
+    map<string, string> ALLOWED_CREATOR_DASHBOARD_DISPLAY_PREFS = 145;
 
 }
 

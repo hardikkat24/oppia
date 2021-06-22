@@ -189,11 +189,11 @@ class UserQueryOneOffJob(jobs.BaseMapReduceOneOffJobManager):
 
         predicates = constants.EMAIL_DASHBOARD_PREDICATE_DEFINITION
         for predicate in predicates:
-            value = getattr(query_model, predicate['backend_attr'])
-            if value != predicate['default_value']:
+            value = getattr(query_model, predicate.backend_attr)
+            if value != predicate.default_value:
                 query_criteria_satisfied = getattr(
                     job_class,
-                    '_is_%s_query_satisfied' % predicate['backend_id'])(
+                    '_is_%s_query_satisfied' % predicate.backend_id)(
                         user_settings_model, query_model)
             if not query_criteria_satisfied:
                 return
@@ -229,8 +229,8 @@ class UserQueryOneOffJob(jobs.BaseMapReduceOneOffJobManager):
         query_model.put()
 
         query_params = {
-            predicate['backend_attr']: getattr(
-                query_model, predicate['backend_attr'])
+            predicate.backend_attr: getattr(
+                query_model, predicate.backend_attr)
             for predicate in constants.EMAIL_DASHBOARD_PREDICATE_DEFINITION
         }
         email_manager.send_query_failure_email(

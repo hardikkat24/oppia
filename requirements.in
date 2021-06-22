@@ -36,7 +36,5 @@ google-cloud-translate==2.0.1
 googleapis_common_protos==1.52.0
 webapp2==3.0.0b1
 elasticsearch==7.10.0
-google==3.0.0
-protobuf==3.13.0
 mypy-protobuf==1.24
 

@@ -195,7 +195,7 @@ class UserQueryJobOneOffTests(test_utils.EmailTestBase):
         job_class = user_query_jobs_one_off.UserQueryOneOffJob
         for predicate in predicates:
             predicate_function = getattr(
-                job_class, '_is_%s_query_satisfied' % predicate['backend_id'])
+                job_class, '_is_%s_query_satisfied' % predicate.backend_id)
             self.assertIsNotNone(predicate_function)
 
     def test_that_user_without_user_contribution_model_is_skipped(self):

@@ -27,7 +27,7 @@ import python_utils
 import utils
 
 attribute_names = [ # pylint: disable=invalid-name
-    predicate['backend_attr'] for predicate in (
+    predicate.backend_attr for predicate in (
         constants.EMAIL_DASHBOARD_PREDICATE_DEFINITION)]
 
 UserQueryParams = collections.namedtuple( # pylint: disable=invalid-name

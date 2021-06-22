@@ -283,8 +283,8 @@ class StoryNode(python_utils.OBJECT):
         Returns:
             bool. Whether the thumbnail background color is valid or not.
         """
-        return thumbnail_bg_color in constants.ALLOWED_THUMBNAIL_BG_COLORS[
-            'chapter']
+        return (
+            thumbnail_bg_color in constants.ALLOWED_THUMBNAIL_BG_COLORS.chapter)
 
     def to_dict(self):
         """Returns a dict representing this StoryNode domain object.
@@ -701,8 +701,8 @@ class Story(python_utils.OBJECT):
         Returns:
             bool. Whether the thumbnail background color is valid or not.
         """
-        return thumbnail_bg_color in constants.ALLOWED_THUMBNAIL_BG_COLORS[
-            'story']
+        return (
+            thumbnail_bg_color in constants.ALLOWED_THUMBNAIL_BG_COLORS.story)
 
     def validate(self):
         """Validates various properties of the story object.
