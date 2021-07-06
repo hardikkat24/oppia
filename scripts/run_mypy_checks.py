@@ -805,12 +805,14 @@ def install_mypy_prerequisites():
     """
     cmd = [
         PYTHON3_CMD, '-m', 'pip', 'install', '-r', MYPY_REQUIREMENTS_FILE_PATH,
-        '--target', MYPY_TOOLS_DIR, '--upgrade', '--user', '--prefix=',
-        '--system'
+        '--target', MYPY_TOOLS_DIR, '--upgrade'
     ]
-    process = subprocess.call(
-        cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
-    return process
+    current_process = subprocess.Popen(
+        cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    output_stderr = current_process.communicate()[1]
+    if 'can\'t combine user with prefix' in output_stderr:
+        uextention_text = ['--user', '--prefix=', '--system']
+        subprocess.check_call(cmd + uextention_text)
 
 
 def main(args=None):
@@ -827,11 +829,7 @@ def main(args=None):
     common.fix_third_party_imports()
 
     python_utils.PRINT('Installing Mypy and stubs for third party libraries.')
-    return_code = install_mypy_prerequisites()
-    if return_code != 0:
-        python_utils.PRINT(
-            'Cannot install Mypy and stubs for third party libraries.')
-        sys.exit(1)
+    install_mypy_prerequisites()
 
     python_utils.PRINT(
         'Installed Mypy and stubs for third party libraries.')
