@@ -794,6 +794,7 @@ def get_mypy_cmd(files):
             MYPY_CMD, '--exclude', excluded_files_regex,
             '--config-file', CONFIG_FILE_PATH, '.'
         ]
+    cmd = ['sudo', ] + cmd
     return cmd
 
 
