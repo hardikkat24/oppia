@@ -856,7 +856,7 @@ def main(args=None):
     #     python_utils.PRINT(
     #         'Mypy type checks unsuccessful. Please fix the errors.')
     #     sys.exit(1)
-    return process
+    # return process
 
 
 if __name__ == '__main__': # pragma: no cover
