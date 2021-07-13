@@ -25,8 +25,16 @@ import feconf
 import python_utils
 import utils
 
-transaction_services = models.Registry.import_transaction_services()
-datastore_services = models.Registry.import_datastore_services()
+from typing import Any, Dict, List, Text
+
+# PLEASE MAKE SURE TO KEEP THIS IMPORTS IN SYNC WITH IMPORTS USING
+# models.Registry.
+from core.platform.transactions import gae_transaction_services as transaction_services
+from core.platform.datastore import gae_datastore_services as datastore_services
+MYPY = False
+if not MYPY:
+    transaction_services = models.Registry.import_transaction_services()
+    datastore_services = models.Registry.import_datastore_services()
 
 # The delimiter used to separate the version number from the model instance
 # id. To get the instance id from a snapshot id, use Python's rfind()
@@ -36,7 +44,7 @@ VERSION_DELIMITER = '-'
 # Types of deletion policies. The pragma comment is needed because Enums are
 # evaluated as classes in Python and they should use PascalCase, but using
 # UPPER_CASE seems more appropriate here.
-DELETION_POLICY = python_utils.create_enum(  # pylint: disable=invalid-name
+DELETION_POLICY = python_utils.create_enum( # type: ignore[no-untyped-call]  # pylint: disable=invalid-name
     # Models that should be kept.
     'KEEP',
     # Models that should be deleted.
@@ -51,9 +59,9 @@ DELETION_POLICY = python_utils.create_enum(  # pylint: disable=invalid-name
     'PSEUDONYMIZE_IF_PUBLIC_DELETE_IF_PRIVATE',
     # Models that are not directly or indirectly related to users.
     'NOT_APPLICABLE'
-)
+) # type: Any
 
-EXPORT_POLICY = python_utils.create_enum(  # pylint: disable=invalid-name
+EXPORT_POLICY = python_utils.create_enum( # type: ignore[no-untyped-call]  # pylint: disable=invalid-name
     # Indicates that a model's field is to be exported.
     'EXPORTED',
     # Indicates that the value of the field is exported as the key in the
@@ -61,9 +69,9 @@ EXPORT_POLICY = python_utils.create_enum(  # pylint: disable=invalid-name
     'EXPORTED_AS_KEY_FOR_TAKEOUT_DICT',
     # Indicates that a model's field should not be exported.
     'NOT_APPLICABLE'
-)
+) # type: Any
 
-MODEL_ASSOCIATION_TO_USER = python_utils.create_enum(  # pylint: disable=invalid-name
+MODEL_ASSOCIATION_TO_USER = python_utils.create_enum( # type: ignore[no-untyped-call]  # pylint: disable=invalid-name
     # Indicates that a model has a single instance per user.
     'ONE_INSTANCE_PER_USER',
     # Indicates that a model can be shared by multiple users.
@@ -72,7 +80,7 @@ MODEL_ASSOCIATION_TO_USER = python_utils.create_enum(  # pylint: disable=invalid
     'MULTIPLE_INSTANCES_PER_USER',
     # Indicates that a model should not be exported.
     'NOT_CORRESPONDING_TO_USER'
-)
+) # type: Any
 
 # Constant used when retrieving big number of models.
 FETCH_BATCH_SIZE = 1000
@@ -102,10 +110,12 @@ class BaseModel(datastore_services.Model):
     deleted = datastore_services.BooleanProperty(indexed=True, default=False)
 
     def __init__(self, *args, **kwargs):
+        # type: (*Any, **Any) -> None
         super(BaseModel, self).__init__(*args, **kwargs)
         self._last_updated_timestamp_is_fresh = False
 
     def _pre_put_hook(self):
+        # type: () -> None
         """Operations to perform just before the model is `put` into storage.
 
         Raises:
@@ -128,6 +138,7 @@ class BaseModel(datastore_services.Model):
 
     @property
     def id(self):
+        # type: () -> Any
         """A unique id for this model instance."""
         return self.key.id()
 
@@ -138,6 +149,7 @@ class BaseModel(datastore_services.Model):
 
     @staticmethod
     def get_deletion_policy():
+        # type: () -> Any
         """This method should be implemented by subclasses.
 
         Raises:
@@ -150,6 +162,7 @@ class BaseModel(datastore_services.Model):
 
     @classmethod
     def has_reference_to_user_id(cls, user_id):
+        # type: (Text) -> None
         """This method should be implemented by subclasses.
 
         Args:
@@ -165,6 +178,7 @@ class BaseModel(datastore_services.Model):
 
     @staticmethod
     def export_data(user_id):
+        # type: (Text) -> None
         """This method should be implemented by subclasses.
 
         Args:
@@ -180,6 +194,7 @@ class BaseModel(datastore_services.Model):
 
     @staticmethod
     def get_model_association_to_user():
+        # type: () -> None
         """This method should be implemented by subclasses.
 
         Raises:
@@ -192,6 +207,7 @@ class BaseModel(datastore_services.Model):
 
     @classmethod
     def get_export_policy(cls):
+        # type: () -> Dict[Text, Any]
         """Model doesn't contain any data directly corresponding to a user."""
         return {
             'created_on': EXPORT_POLICY.NOT_APPLICABLE,
@@ -201,6 +217,7 @@ class BaseModel(datastore_services.Model):
 
     @classmethod
     def get_field_names_for_takeout(cls):
+        # type: () -> Dict[Text, Any]
         """Returns a dictionary containing a mapping from field names to
         export dictionary keys for fields whose export dictionary key does
         not match their field name.
@@ -209,6 +226,7 @@ class BaseModel(datastore_services.Model):
 
     @classmethod
     def get(cls, entity_id, strict=True):
+        # type: (Text, bool) -> Optional[datastore_services.Model]
         """Gets an entity by id.
 
         Args:
@@ -238,6 +256,7 @@ class BaseModel(datastore_services.Model):
 
     @classmethod
     def get_multi(cls, entity_ids, include_deleted=False):
+        # type: (List[Text], bool) -> List[Optional[datastore_services.Model]]
         """Gets list of entities by list of ids.
 
         Args:
@@ -270,6 +289,7 @@ class BaseModel(datastore_services.Model):
         return entities
 
     def update_timestamps(self, update_last_updated_time=True):
+        # type: (bool) -> None
         """Update the created_on and last_updated fields.
 
         Args:
@@ -286,6 +306,7 @@ class BaseModel(datastore_services.Model):
 
     @classmethod
     def update_timestamps_multi(cls, entities, update_last_updated_time=True):
+        # type: (List[datastore_services.Model], bool) -> None
         """Update the created_on and last_updated fields of all given entities.
 
         Args:
@@ -300,6 +321,7 @@ class BaseModel(datastore_services.Model):
     @classmethod
     @transaction_services.run_in_transaction_wrapper
     def put_multi_transactional(cls, entities):
+        # type: (List[datastore_services.Model]) -> None
         """Stores the given datastore_services.Model instances and runs it
         through a transaction. Either all models are stored, or none of them
         in the case when the transaction fails.
@@ -312,6 +334,7 @@ class BaseModel(datastore_services.Model):
 
     @classmethod
     def put_multi(cls, entities):
+        # type: (List[datastore_services.Model]) -> None
         """Stores the given datastore_services.Model instances.
 
         Args:
@@ -322,6 +345,7 @@ class BaseModel(datastore_services.Model):
 
     @classmethod
     def delete_multi(cls, entities):
+        # type: (List[datastore_services.Model]) -> None
         """Deletes the given datastore_services.Model instances.
 
         Args:
@@ -332,6 +356,7 @@ class BaseModel(datastore_services.Model):
 
     @classmethod
     def delete_by_id(cls, instance_id):
+        # type: (Text) -> None
         """Deletes instance by id.
 
         Args:
@@ -340,6 +365,7 @@ class BaseModel(datastore_services.Model):
         datastore_services.Key(cls, instance_id).delete()
 
     def delete(self):
+        # type: () -> None
         """Deletes this instance."""
         self.key.delete()
 

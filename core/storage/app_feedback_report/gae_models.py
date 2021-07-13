@@ -24,6 +24,8 @@ import feconf
 import python_utils
 import utils
 
+from typing import Text
+
 (base_models,) = models.Registry.import_models([models.NAMES.base_model])
 
 datastore_services = models.Registry.import_datastore_services()
@@ -142,6 +144,7 @@ class AppFeedbackReportModel(base_models.BaseModel):
             entry_point_exploration_id, entry_point_subtopic_id,
             text_language_code, audio_language_code, android_report_info,
             web_report_info):
+        # type: (Text, datetime.datetime, Text, Text, Text, Optional[Text], Optional[int], Optional[Text], Text, Optional[Text], Optional[Text], Optional[Text], Optional[Text], Text, Text, Optional[Dict[Text, Any]], Optional[Dict[Text, Any]]) -> Any
         """Creates a new AppFeedbackReportModel instance and returns its ID.
 
         Args:

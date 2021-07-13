@@ -25,8 +25,14 @@ from constants import constants
 import feconf
 import python_utils
 
+from typing import Text, List, Tuple, Any, Optional, Type
+from types import ModuleType
+
+# Imports due to MyPy
+from core.storage.base_model.gae_models import BaseModel
+
 # Valid model names.
-NAMES = python_utils.create_enum(
+NAMES = python_utils.create_enum( # type: ignore[no-untyped-call]
     'activity', 'app_feedback_report', 'audit', 'base_model', 'beam_job',
     'blog', 'classifier', 'collection', 'config', 'email', 'exploration',
     'feedback', 'improvements', 'job', 'opportunity', 'question',
@@ -52,6 +58,7 @@ class Platform(python_utils.OBJECT):
 
     @classmethod
     def import_models(cls):
+        # type: () -> None
         """An abstract method that should be implemented on inherited
         classes.
 
@@ -70,6 +77,7 @@ class _Gae(Platform):
 
     @classmethod
     def import_models(cls, model_names):
+        # type: (List[Text]) -> Tuple[ModuleType,...]
         """Imports and returns the storage modules listed in model_names.
 
         Args:
@@ -81,7 +89,7 @@ class _Gae(Platform):
         Raises:
             Exception. Invalid model name.
         """
-        returned_models = []
+        returned_models = [] # type: List[ModuleType]
         for name in model_names:
             if name == NAMES.activity:
                 from core.storage.activity import gae_models as activity_models
@@ -168,6 +176,7 @@ class _Gae(Platform):
 
     @classmethod
     def get_storage_model_classes(cls, model_names):
+        # type: (List[Text]) -> List[BaseModel]
         """Get the storage model classes that are in the modules listed in
         model_names.
 
@@ -192,6 +201,7 @@ class _Gae(Platform):
 
     @classmethod
     def get_all_storage_model_classes(cls):
+        # type: () -> List[BaseModel]
         """Get all model classes that are saved in the storage, NOT model
         classes that are just inherited from (BaseModel,
         BaseCommitLogEntryModel, etc.).
@@ -204,6 +214,7 @@ class _Gae(Platform):
 
     @classmethod
     def import_auth_services(cls):
+        # type: () -> ModuleType
         """Imports and returns firebase_auth_services module.
 
         Returns:
@@ -214,6 +225,7 @@ class _Gae(Platform):
 
     @classmethod
     def import_transaction_services(cls):
+        # type: () -> ModuleType
         """Imports and returns gae_transaction_services module.
 
         Returns:
@@ -224,6 +236,7 @@ class _Gae(Platform):
 
     @classmethod
     def import_datastore_services(cls):
+        # type: () -> ModuleType
         """Imports and returns gae_datastore_services module.
 
         Returns:
@@ -234,6 +247,7 @@ class _Gae(Platform):
 
     @classmethod
     def import_app_identity_services(cls):
+        # type: () -> ModuleType
         """Imports and returns gae_app_identity_services module.
 
         Returns:
@@ -244,6 +258,7 @@ class _Gae(Platform):
 
     @classmethod
     def import_email_services(cls):
+        # type: () -> ModuleType
         """Imports and returns the email services module specified in feconf.py.
         If in DEV_MODE, uses the dev mode version of email services.
 
@@ -270,6 +285,7 @@ class _Gae(Platform):
 
     @classmethod
     def import_bulk_email_services(cls):
+        # type: () -> ModuleType
         """Imports and returns the bulk email services module specified in
         feconf.py. If in DEV_MODE, uses the dev mode version of email services.
 
@@ -296,6 +312,7 @@ class _Gae(Platform):
 
     @classmethod
     def import_cache_services(cls):
+        # type: () -> ModuleType
         """Imports and returns a cache_services module from core.platform.cache.
 
         Returns:
@@ -306,6 +323,7 @@ class _Gae(Platform):
 
     @classmethod
     def import_taskqueue_services(cls):
+        # type: () -> ModuleType
         """Imports and returns a taskqueue_services module from
         core.platform.taskqueue.
 
@@ -321,6 +339,7 @@ class _Gae(Platform):
 
     @classmethod
     def import_search_services(cls):
+        # type: () -> ModuleType
         """Imports and returns gae_search_services module.
 
         Returns:
@@ -331,6 +350,7 @@ class _Gae(Platform):
 
     @classmethod
     def import_cloud_translate_services(cls):
+        # type: () -> ModuleType
         """Imports and returns cloud_translate_services module.
 
         Returns:
@@ -359,16 +379,18 @@ class Registry(python_utils.OBJECT):
 
     @classmethod
     def _get(cls):
+        # type: () -> Type[_Gae]
         """Returns the appropriate interface class for platform-specific
         imports.
 
         Returns:
             class. The corresponding platform-specific interface class.
         """
-        return cls._PLATFORM_MAPPING.get(GAE_PLATFORM)
+        return cls._PLATFORM_MAPPING[GAE_PLATFORM]
 
     @classmethod
     def import_models(cls, model_names):
+        # type: (List[Text]) -> Tuple[ModuleType,...]
         """Imports and returns the storage modules listed in model_names.
 
         Args:
@@ -381,6 +403,7 @@ class Registry(python_utils.OBJECT):
 
     @classmethod
     def get_storage_model_classes(cls, model_names):
+        # type: (List[Text]) -> List[BaseModel]
         """Get the storage model classes that are in the modules listed in
         model_names.
 
@@ -394,6 +417,7 @@ class Registry(python_utils.OBJECT):
 
     @classmethod
     def get_all_storage_model_classes(cls):
+        # type: () -> List[BaseModel]
         """Get all model classes that are saved in the storage, NOT model
         classes that are just inherited from (BaseModel,
         BaseCommitLogEntryModel, etc.).
@@ -405,6 +429,7 @@ class Registry(python_utils.OBJECT):
 
     @classmethod
     def import_auth_services(cls):
+        # type: () -> ModuleType
         """Imports and returns auth_services module.
 
         Returns:
@@ -414,6 +439,7 @@ class Registry(python_utils.OBJECT):
 
     @classmethod
     def import_datastore_services(cls):
+        # type: () -> ModuleType
         """Imports and returns datastore_services module.
 
         Returns:
@@ -423,6 +449,7 @@ class Registry(python_utils.OBJECT):
 
     @classmethod
     def import_transaction_services(cls):
+        # type: () -> ModuleType
         """Imports and returns transaction_services module.
 
         Returns:
@@ -432,6 +459,7 @@ class Registry(python_utils.OBJECT):
 
     @classmethod
     def import_app_identity_services(cls):
+        # type: () -> ModuleType
         """Imports and returns app_identity_services module.
 
         Returns:
@@ -441,6 +469,7 @@ class Registry(python_utils.OBJECT):
 
     @classmethod
     def import_email_services(cls):
+        # type: () -> ModuleType
         """Imports and returns email_services module.
 
         Returns:
@@ -450,6 +479,7 @@ class Registry(python_utils.OBJECT):
 
     @classmethod
     def import_bulk_email_services(cls):
+        # type: () -> ModuleType
         """Imports and returns bulk email_services module.
 
         Returns:
@@ -459,6 +489,7 @@ class Registry(python_utils.OBJECT):
 
     @classmethod
     def import_cache_services(cls):
+        # type: () -> ModuleType
         """Imports and returns the platform cache_services module.
 
         Returns:
@@ -468,6 +499,7 @@ class Registry(python_utils.OBJECT):
 
     @classmethod
     def import_taskqueue_services(cls):
+        # type: () -> ModuleType
         """Imports and returns taskqueue_services module.
 
         Returns:
@@ -477,6 +509,7 @@ class Registry(python_utils.OBJECT):
 
     @classmethod
     def import_cloud_translate_services(cls):
+        # type: () -> ModuleType
         """Imports and returns cloud_translate_services module.
 
         Returns:
@@ -486,6 +519,7 @@ class Registry(python_utils.OBJECT):
 
     @classmethod
     def import_search_services(cls):
+        # type: () -> ModuleType
         """Imports and returns search_services module.
 
         Returns:

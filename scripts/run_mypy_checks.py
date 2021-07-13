@@ -472,8 +472,6 @@ NOT_FULLY_COVERED_FILES = [
     'core/platform/transactions/gae_transaction_services.py',
     'core/platform_feature_list.py',
     'core/platform_feature_list_test.py',
-    'core/storage/activity/gae_models.py',
-    'core/storage/activity/gae_models_test.py',
     'core/storage/app_feedback_report/gae_models.py',
     'core/storage/app_feedback_report/gae_models_test.py',
     'core/storage/audit/gae_models.py',
