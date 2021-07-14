@@ -22,17 +22,18 @@ import datetime
 from constants import constants
 from core.platform import models
 import feconf
+
 import python_utils
 import utils
 
-from typing import Any, Dict, List, Text
+from typing import Any, Dict, Iterable, List, Optional, Text, Tuple, Union
 
-# PLEASE MAKE SURE TO KEEP THIS IMPORTS IN SYNC WITH IMPORTS USING
-# models.Registry.
-from core.platform.transactions import gae_transaction_services as transaction_services
-from core.platform.datastore import gae_datastore_services as datastore_services
+# COMMENTS
+# COMMERNTS
 MYPY = False
-if not MYPY:
+if MYPY:
+    from mypy_imports import * #pragma: no-cover
+else:
     transaction_services = models.Registry.import_transaction_services()
     datastore_services = models.Registry.import_datastore_services()
 
@@ -91,7 +92,7 @@ RAND_RANGE = (1 << 30) - 1
 ID_LENGTH = 12
 
 
-class BaseModel(datastore_services.Model):
+class BaseModel(datastore_services.Model): # type: ignore[misc]
     """Base model for all persistent object storage classes."""
 
     # Specifies whether the model's id is used as a key in Takeout. By default,
@@ -162,7 +163,7 @@ class BaseModel(datastore_services.Model):
 
     @classmethod
     def has_reference_to_user_id(cls, user_id):
-        # type: (Text) -> None
+        # type: (Text) -> bool
         """This method should be implemented by subclasses.
 
         Args:
@@ -178,7 +179,7 @@ class BaseModel(datastore_services.Model):
 
     @staticmethod
     def export_data(user_id):
-        # type: (Text) -> None
+        # type: (Text) -> Dict[Text, Any]
         """This method should be implemented by subclasses.
 
         Args:
@@ -226,7 +227,7 @@ class BaseModel(datastore_services.Model):
 
     @classmethod
     def get(cls, entity_id, strict=True):
-        # type: (Text, bool) -> Optional[datastore_services.Model]
+        # type: (Text, bool) -> Optional[BaseModel]
         """Gets an entity by id.
 
         Args:
@@ -252,11 +253,11 @@ class BaseModel(datastore_services.Model):
             raise cls.EntityNotFoundError(
                 'Entity for class %s with id %s not found' %
                 (cls.__name__, entity_id))
-        return entity
+        return entity # type: ignore[no-any-return]
 
     @classmethod
     def get_multi(cls, entity_ids, include_deleted=False):
-        # type: (List[Text], bool) -> List[Optional[datastore_services.Model]]
+        # type: (List[Text], bool) -> List[Optional[BaseModel]]
         """Gets list of entities by list of ids.
 
         Args:
@@ -284,7 +285,7 @@ class BaseModel(datastore_services.Model):
 
         if not include_deleted:
             for i in python_utils.RANGE(len(entities)):
-                if entities[i] and entities[i].deleted:
+                if entities[i] and entities[i].deleted: # type: ignore[union-attr]
                     entities[i] = None
         return entities
 
@@ -306,7 +307,7 @@ class BaseModel(datastore_services.Model):
 
     @classmethod
     def update_timestamps_multi(cls, entities, update_last_updated_time=True):
-        # type: (List[datastore_services.Model], bool) -> None
+        # type: (List[BaseModel], bool) -> None
         """Update the created_on and last_updated fields of all given entities.
 
         Args:
@@ -321,7 +322,7 @@ class BaseModel(datastore_services.Model):
     @classmethod
     @transaction_services.run_in_transaction_wrapper
     def put_multi_transactional(cls, entities):
-        # type: (List[datastore_services.Model]) -> None
+        # type: (List[BaseModel]) -> None
         """Stores the given datastore_services.Model instances and runs it
         through a transaction. Either all models are stored, or none of them
         in the case when the transaction fails.
@@ -334,7 +335,7 @@ class BaseModel(datastore_services.Model):
 
     @classmethod
     def put_multi(cls, entities):
-        # type: (List[datastore_services.Model]) -> None
+        # type: (List[BaseModel]) -> None
         """Stores the given datastore_services.Model instances.
 
         Args:
@@ -345,7 +346,7 @@ class BaseModel(datastore_services.Model):
 
     @classmethod
     def delete_multi(cls, entities):
-        # type: (List[datastore_services.Model]) -> None
+        # type: (List[BaseModel]) -> None
         """Deletes the given datastore_services.Model instances.
 
         Args:
@@ -371,6 +372,7 @@ class BaseModel(datastore_services.Model):
 
     @classmethod
     def get_all(cls, include_deleted=False):
+        # type: (bool) -> Iterable[BaseModel]
         """Gets iterable of all entities of this class.
 
         Args:
@@ -380,12 +382,13 @@ class BaseModel(datastore_services.Model):
         Returns:
             iterable. Filterable iterable of all entities of this class.
         """
-        return (
+        return ( # type: ignore[no-any-return]
             cls.query() if include_deleted else
             cls.query().filter(cls.deleted == False)) # pylint: disable=singleton-comparison
 
     @classmethod
     def get_new_id(cls, entity_name):
+        # type: (Text) -> Text
         """Gets a new id for an entity, based on its name.
 
         The returned id is guaranteed to be unique among all instances of this
@@ -414,6 +417,7 @@ class BaseModel(datastore_services.Model):
     @classmethod
     def _fetch_page_sorted_by_last_updated(
             cls, query, page_size, urlsafe_start_cursor):
+        # type: (datastore_services.Query, int, Optional[Text]) -> Tuple[List[BaseModel], Optional[Text], bool]
         """Fetches a page of entities sorted by their last_updated attribute in
         descending order (newly updated first).
 
@@ -468,26 +472,31 @@ class BaseHumanMaintainedModel(BaseModel):
         datastore_services.DateTimeProperty(indexed=True, required=True))
 
     def put(self):
+        # type: () -> None
         """Unsupported operation on human-maintained models."""
         raise NotImplementedError('Use put_for_human or put_for_bot instead')
 
     def put_for_human(self):
+        # type: () -> None
         """Stores the model instance on behalf of a human."""
         self.last_updated_by_human = datetime.datetime.utcnow()
-        return super(BaseHumanMaintainedModel, self).put()
+        return super(BaseHumanMaintainedModel, self).put() # type: ignore[no-any-return]
 
     def put_for_bot(self):
+        # type: () -> None
         """Stores the model instance on behalf of a non-human."""
-        return super(BaseHumanMaintainedModel, self).put()
+        return super(BaseHumanMaintainedModel, self).put() # type: ignore[no-any-return]
 
     @classmethod
     def put_multi(cls, unused_instances):
+        # type: (List[BaseHumanMaintainedModel]) -> None
         """Unsupported operation on human-maintained models."""
         raise NotImplementedError(
             'Use put_multi_for_human or put_multi_for_bot instead')
 
     @classmethod
     def put_multi_for_human(cls, instances):
+        # type: (List[BaseHumanMaintainedModel]) -> None
         """Stores the given model instances on behalf of a human.
 
         Args:
@@ -499,10 +508,11 @@ class BaseHumanMaintainedModel(BaseModel):
         now = datetime.datetime.utcnow()
         for instance in instances:
             instance.last_updated_by_human = now
-        return super(BaseHumanMaintainedModel, cls).put_multi(instances)
+        return super(BaseHumanMaintainedModel, cls).put_multi(instances) # type: ignore[no-any-return]
 
     @classmethod
     def put_multi_for_bot(cls, instances):
+        # type: (List[BaseHumanMaintainedModel]) -> None
         """Stores the given model instances on behalf of a non-human.
 
         Args:
@@ -511,7 +521,7 @@ class BaseHumanMaintainedModel(BaseModel):
         Returns:
             list(future). A list of futures.
         """
-        return super(BaseHumanMaintainedModel, cls).put_multi(instances)
+        return super(BaseHumanMaintainedModel, cls).put_multi(instances) # type: ignore[no-any-return]
 
 
 class BaseCommitLogEntryModel(BaseModel):
@@ -543,6 +553,7 @@ class BaseCommitLogEntryModel(BaseModel):
 
     @staticmethod
     def get_model_association_to_user():
+        # type: () -> Any
         """The history of commits is not relevant for the purposes of
         Takeout, since commits do not contain any personal data of the user.
         """
@@ -550,6 +561,7 @@ class BaseCommitLogEntryModel(BaseModel):
 
     @staticmethod
     def get_deletion_policy():
+        # type: () -> Any
         """Model contains data corresponding to a user that
         requires pseudonymization: user_id field.
         """
@@ -557,6 +569,7 @@ class BaseCommitLogEntryModel(BaseModel):
 
     @classmethod
     def get_export_policy(cls):
+        # type: () -> Dict[Text, Any]
         """Model contains data corresponding to a user,
         but this isn't exported because the history of commits is not
         relevant to a user for the purposes of Takeout, since commits do not
@@ -576,6 +589,7 @@ class BaseCommitLogEntryModel(BaseModel):
 
     @classmethod
     def has_reference_to_user_id(cls, user_id):
+        # type: (Text) -> bool
         """Check whether BaseCommitLogEntryModel references user.
 
         Args:
@@ -590,6 +604,7 @@ class BaseCommitLogEntryModel(BaseModel):
     def create(
             cls, entity_id, version, committer_id, commit_type, commit_message,
             commit_cmds, status, community_owned):
+        # type: (Text, int, Text, Text, Text, List[Dict[Text, Any]], Text, bool) -> BaseCommitLogEntryModel
         """This method returns an instance of the CommitLogEntryModel for a
         construct with the common fields filled.
 
@@ -631,6 +646,7 @@ class BaseCommitLogEntryModel(BaseModel):
 
     @classmethod
     def get_instance_id(cls, target_entity_id, version):
+        # type: (Text, Union[int, Text]) -> Text
         """This method should be implemented in the inherited classes.
 
         Args:
@@ -649,6 +665,7 @@ class BaseCommitLogEntryModel(BaseModel):
 
     @classmethod
     def get_all_commits(cls, page_size, urlsafe_start_cursor):
+        # type: (int, Optional[Text]) -> Tuple[List[BaseCommitLogEntryModel], Optional[Text], bool]
         """Fetches a list of all the commits sorted by their last updated
         attribute.
 
@@ -676,6 +693,7 @@ class BaseCommitLogEntryModel(BaseModel):
 
     @classmethod
     def get_commit(cls, target_entity_id, version):
+        # type: (Text, int) -> BaseCommitLogEntryModel
         """Returns the commit corresponding to an instance id and
         version number.
 
@@ -691,7 +709,7 @@ class BaseCommitLogEntryModel(BaseModel):
             version number.
         """
         commit_id = cls.get_instance_id(target_entity_id, version)
-        return cls.get_by_id(commit_id)
+        return cls.get_by_id(commit_id) # type: ignore[no-any-return]
 
 
 class VersionedModel(BaseModel):
@@ -710,14 +728,14 @@ class VersionedModel(BaseModel):
 
     # The class designated as the snapshot model. This should be a subclass of
     # BaseSnapshotMetadataModel.
-    SNAPSHOT_METADATA_CLASS = None
+    SNAPSHOT_METADATA_CLASS = None # type: BaseSnapshotMetadataModel
     # The class designated as the snapshot content model. This should be a
     # subclass of BaseSnapshotContentModel.
-    SNAPSHOT_CONTENT_CLASS = None
+    SNAPSHOT_CONTENT_CLASS = None # type: BaseSnapshotContentModel
     # The class designated as the commit log entry model. This should be
     # a subclass of BaseCommitLogEntryModel. In cases where we do not need
     # to log the commits it can be None.
-    COMMIT_LOG_ENTRY_CLASS = None
+    COMMIT_LOG_ENTRY_CLASS = None # type: BaseCommitLogEntryModel
     # Whether reverting is allowed. Default is False.
     ALLOW_REVERT = False
 
@@ -752,15 +770,18 @@ class VersionedModel(BaseModel):
     version = datastore_services.IntegerProperty(default=0)
 
     def _require_not_marked_deleted(self):
+        # type: () -> None
         """Checks whether the model instance is deleted."""
         if self.deleted:
             raise Exception('This model instance has been deleted.')
 
     def compute_snapshot(self):
+        # type: () -> Dict[Text, Any]
         """Generates a snapshot (dict) from the model property values."""
-        return self.to_dict(exclude=['created_on', 'last_updated'])
+        return self.to_dict(exclude=['created_on', 'last_updated']) # type: ignore[no-any-return]
 
     def _reconstitute(self, snapshot_dict):
+        # type: (Dict[Text, Any]) -> VersionedModel
         """Populates the model instance with the snapshot.
 
         Args:
@@ -775,6 +796,7 @@ class VersionedModel(BaseModel):
         return self
 
     def _reconstitute_from_snapshot_id(self, snapshot_id):
+        # type: (Text) -> VersionedModel
         """Gets a reconstituted instance of this model class, based on the given
         snapshot id.
 
@@ -785,6 +807,8 @@ class VersionedModel(BaseModel):
             VersionedModel. Reconstituted instance.
         """
         snapshot_model = self.SNAPSHOT_CONTENT_CLASS.get(snapshot_id)
+        if snapshot_model is None:
+            raise Exception('Invalid snapshot_id.')
         snapshot_dict = snapshot_model.content
         reconstituted_model = self._reconstitute(snapshot_dict)
         # TODO(sll): The 'created_on' and 'last_updated' values here will be
@@ -800,11 +824,12 @@ class VersionedModel(BaseModel):
 
     @classmethod
     def get_snapshot_id(cls, instance_id, version_number):
+        # type: (Text, Union[Text, int]) -> Text
         """Gets a unique snapshot id for this instance and version.
 
         Args:
             instance_id: str. The given instance id.
-            version_number: int. The given version number.
+            version_number: str | int. The given version number.
 
         Returns:
             str. The unique snapshot id corresponding to the given instance and
@@ -815,6 +840,7 @@ class VersionedModel(BaseModel):
 
     def _trusted_commit(
             self, committer_id, commit_type, commit_message, commit_cmds):
+        # type: (Text, Text, Text, List[Dict[Text, Any]]) -> None
         """Evaluates and executes commit. Main function for all commit types.
 
         Args:
@@ -851,15 +877,16 @@ class VersionedModel(BaseModel):
         snapshot_id = self.get_snapshot_id(self.id, self.version)
 
         snapshot_metadata_instance = self.SNAPSHOT_METADATA_CLASS.create(
-            snapshot_id, committer_id, commit_type, commit_message, commit_cmds)
+            snapshot_id, committer_id, commit_type, commit_message, commit_cmds) # type: BaseSnapshotMetadataModel
         snapshot_content_instance = (
-            self.SNAPSHOT_CONTENT_CLASS.create(snapshot_id, snapshot))
+            self.SNAPSHOT_CONTENT_CLASS.create(snapshot_id, snapshot)) # type: BaseSnapshotContentModel
 
-        entities = [snapshot_metadata_instance, snapshot_content_instance, self]
+        entities = [snapshot_metadata_instance, snapshot_content_instance, self] # type: List[BaseModel]
         self.update_timestamps_multi(entities)
         BaseModel.put_multi_transactional(entities)
 
-    def delete(self, committer_id, commit_message, force_deletion=False):
+    def delete(self, committer_id, commit_message, force_deletion=False): # type: ignore[override]
+        # type: (Text, Text, bool) -> None
         """Deletes this model instance.
 
         Args:
@@ -891,7 +918,7 @@ class VersionedModel(BaseModel):
                 datastore_services.Key(self.SNAPSHOT_CONTENT_CLASS, snapshot_id)
                 for snapshot_id in snapshot_ids]
 
-            commit_log_keys = []
+            commit_log_keys = [] # type: List[datastore_services.Key]
             if self.COMMIT_LOG_ENTRY_CLASS is not None:
                 commit_log_ids = (
                     self.COMMIT_LOG_ENTRY_CLASS.get_instance_id(
@@ -920,9 +947,10 @@ class VersionedModel(BaseModel):
                 commit_cmds)
 
     @classmethod
-    def delete_multi(
+    def delete_multi( # type: ignore[override]
             cls, entity_ids, committer_id, commit_message,
             force_deletion=False):
+        # type: (List[Text], Text, Text, bool) -> None
         """Deletes the given cls instancies with the given entity_ids.
 
         Args:
@@ -936,16 +964,16 @@ class VersionedModel(BaseModel):
         Raises:
             Exception. This model instance has been already deleted.
         """
-        versioned_models = cls.get_multi(
+        versioned_models_with_none = cls.get_multi(
             entity_ids, include_deleted=force_deletion)
         versioned_models = [
-            versioned_model for versioned_model in versioned_models
+            versioned_model for versioned_model in versioned_models_with_none
             if versioned_model is not None
-        ]
+        ] # type: List[VersionedModel]
         if force_deletion:
             all_models_metadata_keys = []
             all_models_content_keys = []
-            all_models_commit_keys = []
+            all_models_commit_keys = [] # type: List[datastore_services.Key]
             for model in versioned_models:
                 model_version_numbers = [
                     python_utils.UNICODE(num + 1) for num in
@@ -1016,12 +1044,14 @@ class VersionedModel(BaseModel):
             BaseModel.put_multi_transactional(entities)
 
     def put(self, *args, **kwargs):
+        # type: (*Any, **Any) -> None
         """For VersionedModels, this method is replaced with commit()."""
         raise NotImplementedError(
             'The put() method is missing from the '
             'derived class. It should be implemented in the derived class.')
 
     def commit(self, committer_id, commit_message, commit_cmds):
+        # type: (Text, Text, List[Dict[Text, Any]]) -> None
         """Saves a version snapshot and updates the model.
 
         Args:
@@ -1066,6 +1096,7 @@ class VersionedModel(BaseModel):
 
     @classmethod
     def revert(cls, model, committer_id, commit_message, version_number):
+        # type: (VersionedModel, Text, Text, int) -> None
         """Reverts model to previous version.
 
         Args:
@@ -1112,7 +1143,8 @@ class VersionedModel(BaseModel):
             commit_cmds)
 
     @classmethod
-    def get_version(cls, entity_id, version_number, strict=True):
+    def get_version(cls, entity_id, version_number, strict=True): # type: ignore[return]
+        # type: (Text, int, bool) -> Optional[VersionedModel]
         """Gets model instance representing the given version.
 
         The snapshot content is used to populate this model instance. The
@@ -1140,17 +1172,18 @@ class VersionedModel(BaseModel):
         snapshot_id = cls.get_snapshot_id(entity_id, version_number)
 
         try:
-            return cls(  # pylint: disable=protected-access
+            return cls(  # type: ignore[no-any-return]  # pylint: disable=protected-access
                 id=entity_id,
                 version=version_number
             )._reconstitute_from_snapshot_id(snapshot_id)
         except cls.EntityNotFoundError:
             if not strict:
                 return None
-            python_utils.reraise_exception()
+            python_utils.reraise_exception() # type: ignore[no-untyped-call]
 
     @classmethod
     def get_multi_versions(cls, entity_id, version_numbers):
+        # type: (Text, List[int]) -> List[VersionedModel]
         """Gets model instances for each version specified in version_numbers.
 
         Args:
@@ -1200,6 +1233,7 @@ class VersionedModel(BaseModel):
 
     @classmethod
     def get(cls, entity_id, strict=True, version=None):
+        # type: (Text, bool, Optional[int]) -> Optional[VersionedModel]
         """Gets model instance.
 
         Args:
@@ -1213,13 +1247,14 @@ class VersionedModel(BaseModel):
             model. Otherwise, get the specified version.
         """
         if version is None:
-            return super(VersionedModel, cls).get(entity_id, strict=strict)
+            return super(VersionedModel, cls).get(entity_id, strict=strict) # type: ignore[no-any-return]
         else:
             return cls.get_version(entity_id, version, strict=strict)
 
     @classmethod
     def get_snapshots_metadata(
             cls, model_instance_id, version_numbers, allow_deleted=False):
+        # type: (Text, List[int], bool) -> List[Dict[Text, Any]]
         """Gets a list of dicts, each representing a model snapshot.
 
         One dict is returned for each version number in the list of version
@@ -1258,7 +1293,7 @@ class VersionedModel(BaseModel):
                 of the given version numbers.
         """
         if not allow_deleted:
-            cls.get(model_instance_id)._require_not_marked_deleted()  # pylint: disable=protected-access
+            cls.get(model_instance_id)._require_not_marked_deleted() # type: ignore[union-attr]  # pylint: disable=protected-access
 
         snapshot_ids = [
             cls.get_snapshot_id(model_instance_id, version_number)
@@ -1274,6 +1309,7 @@ class VersionedModel(BaseModel):
                     'Invalid version number %s for model %s with id %s'
                     % (version_numbers[ind], cls.__name__, model_instance_id))
 
+        returned_models_without_none = returned_models # type: List[BaseSnapshotMetadataModel] # type: ignore[assignment]
         return [{
             'committer_id': model.committer_id,
             'commit_message': model.commit_message,
@@ -1281,10 +1317,11 @@ class VersionedModel(BaseModel):
             'commit_type': model.commit_type,
             'version_number': version_numbers[ind],
             'created_on_ms': utils.get_time_in_millisecs(model.created_on),
-        } for (ind, model) in enumerate(returned_models)]
+        } for (ind, model) in enumerate(returned_models_without_none)]
 
     @staticmethod
     def get_model_association_to_user():
+        # type: () -> Any
         """The history of commits is not relevant for the purposes of
         Takeout, since commits do not contain any personal user data.
         """
@@ -1292,6 +1329,7 @@ class VersionedModel(BaseModel):
 
     @classmethod
     def get_export_policy(cls):
+        # type: () -> Dict[Text, Any]
         """Model contains data corresponding to a user, but this isn't exported
         because the history of commits is not relevant for the purposes of
         Takeout, since commits do not contain any personal user data.
@@ -1331,6 +1369,7 @@ class BaseSnapshotMetadataModel(BaseModel):
 
     @staticmethod
     def get_deletion_policy():
+        # type: () -> Any
         """Model contains data corresponding to a user that requires
         pseudonymization: committer_id field.
         """
@@ -1338,11 +1377,13 @@ class BaseSnapshotMetadataModel(BaseModel):
 
     @staticmethod
     def get_model_association_to_user():
+        # type: () -> Any
         """There are multiple SnapshotMetadataModels per user."""
         return MODEL_ASSOCIATION_TO_USER.MULTIPLE_INSTANCES_PER_USER
 
     @classmethod
     def get_export_policy(cls):
+        # type: () -> Dict[Text, Any]
         """Model contains data to export/delete corresponding to a user."""
         return dict(BaseModel.get_export_policy(), **{
             'committer_id': EXPORT_POLICY.NOT_APPLICABLE,
@@ -1355,6 +1396,7 @@ class BaseSnapshotMetadataModel(BaseModel):
 
     @classmethod
     def has_reference_to_user_id(cls, user_id):
+        # type: (Text) -> bool
         """Check whether BaseSnapshotMetadataModel references the given user.
 
         Args:
@@ -1373,6 +1415,7 @@ class BaseSnapshotMetadataModel(BaseModel):
     def create(
             cls, snapshot_id, committer_id, commit_type, commit_message,
             commit_cmds):
+        # type: (Text, Text, Text, Text, List[Dict[Text, Any]]) -> BaseSnapshotMetadataModel
         """This method returns an instance of the BaseSnapshotMetadataModel for
         a construct with the common fields filled.
 
@@ -1401,23 +1444,26 @@ class BaseSnapshotMetadataModel(BaseModel):
             commit_cmds=commit_cmds)
 
     def get_unversioned_instance_id(self):
+        # type: () -> Text
         """Gets the instance id from the snapshot id.
 
         Returns:
             str. Instance id part of snapshot id.
         """
-        return self.id[:self.id.rfind(VERSION_DELIMITER)]
+        return self.id[:self.id.rfind(VERSION_DELIMITER)] # type: ignore[no-any-return]
 
     def get_version_string(self):
+        # type: () -> Text
         """Gets the version number from the snapshot id.
 
         Returns:
             str. Version number part of snapshot id.
         """
-        return self.id[self.id.rfind(VERSION_DELIMITER) + 1:]
+        return self.id[self.id.rfind(VERSION_DELIMITER) + 1:] # type: ignore[no-any-return]
 
     @classmethod
     def export_data(cls, user_id):
+        # type: (Text) -> Dict[Text, Any]
         metadata_models = (
             cls.query(cls.committer_id == user_id).fetch(
                 projection=[cls.commit_type, cls.commit_message]))
@@ -1442,6 +1488,7 @@ class BaseSnapshotContentModel(BaseModel):
 
     @staticmethod
     def get_model_association_to_user():
+        # type: () -> Any
         """The contents of snapshots are not relevant to the user for
         Takeout.
         """
@@ -1449,6 +1496,7 @@ class BaseSnapshotContentModel(BaseModel):
 
     @classmethod
     def get_export_policy(cls):
+        # type: () -> Dict[Text, Any]
         """Model contains data corresponding to a user, but this isn't exported
         because the contents of snapshots are note relevant to the user for
         Takeout.
@@ -1459,6 +1507,7 @@ class BaseSnapshotContentModel(BaseModel):
 
     @classmethod
     def create(cls, snapshot_id, content):
+        # type: (Text, Dict[Text, Any]) -> BaseSnapshotContentModel
         """This method returns an instance of the BaseSnapshotContentModel for
         a construct with the common fields filled.
 
@@ -1475,20 +1524,22 @@ class BaseSnapshotContentModel(BaseModel):
         return cls(id=snapshot_id, content=content)
 
     def get_unversioned_instance_id(self):
+        # type: () -> Text
         """Gets the instance id from the snapshot id.
 
         Returns:
             str. Instance id part of snapshot id.
         """
-        return self.id[:self.id.rfind(VERSION_DELIMITER)]
+        return self.id[:self.id.rfind(VERSION_DELIMITER)] # type: ignore[no-any-return]
 
     def get_version_string(self):
+        # type: () -> Text
         """Gets the version number from the snapshot id.
 
         Returns:
             str. Version number part of snapshot id.
         """
-        return self.id[self.id.rfind(VERSION_DELIMITER) + 1:]
+        return self.id[self.id.rfind(VERSION_DELIMITER) + 1:] # type: ignore[no-any-return]
 
 
 class BaseMapReduceBatchResultsModel(BaseModel):

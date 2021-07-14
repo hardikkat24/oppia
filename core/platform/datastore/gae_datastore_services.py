@@ -24,6 +24,7 @@ import datetime
 import functools
 
 from core.platform import models
+from mypy_imports import *
 import python_utils
 
 from typing import Any, Callable, Iterator, List, Optional, Text, Tuple
@@ -33,10 +34,10 @@ from google.appengine.datastore import datastore_query
 from google.appengine.datastore import datastore_stub_util
 from google.appengine.ext import ndb
 
+MYPY=False
+if not MYPY:
+    transaction_services = models.Registry.import_transaction_services()
 
-from core.platform.transactions import gae_transaction_services as transaction_services
-
-transaction_services = models.Registry.import_transaction_services()
 
 Model = ndb.Model # type: Any
 Key = ndb.Key # type: Any
@@ -101,7 +102,7 @@ def update_timestamps_multi(entities, update_last_updated_time=True):
 
 
 def put_multi(entities):
-    # type: (List[Text]) -> List[Text]
+    # type: (List[Model]) -> List[Text]
     """Stores a sequence of Model instances.
 
     Args:
