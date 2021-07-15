@@ -24,7 +24,6 @@ import datetime
 import functools
 
 from core.platform import models
-from mypy_imports import *
 import python_utils
 
 from typing import Any, Callable, Iterator, List, Optional, Text, Tuple
@@ -35,7 +34,9 @@ from google.appengine.datastore import datastore_stub_util
 from google.appengine.ext import ndb
 
 MYPY=False
-if not MYPY:
+if MYPY:
+    from mypy_imports import *
+else:
     transaction_services = models.Registry.import_transaction_services()
 
 
@@ -44,14 +45,14 @@ Key = ndb.Key # type: Any
 Property = ndb.Property # type: Any
 Query = ndb.Query # type: Any
 
-BooleanProperty = ndb.BooleanProperty
-DateProperty = ndb.DateProperty
-ComputedProperty = ndb.ComputedProperty
-DateTimeProperty = ndb.DateTimeProperty
-FloatProperty = ndb.FloatProperty
-IntegerProperty = ndb.IntegerProperty
-JsonProperty = ndb.JsonProperty
-UserProperty = ndb.UserProperty
+BooleanProperty = ndb.BooleanProperty # type: Any
+DateProperty = ndb.DateProperty # type: Any
+ComputedProperty = ndb.ComputedProperty # type: Any
+DateTimeProperty = ndb.DateTimeProperty # type: Any
+FloatProperty = ndb.FloatProperty # type: Any
+IntegerProperty = ndb.IntegerProperty # type: Any
+JsonProperty = ndb.JsonProperty # type: Any
+UserProperty = ndb.UserProperty # type: Any
 
 
 @functools.wraps(ndb.StringProperty)

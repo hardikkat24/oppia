@@ -29,7 +29,11 @@ from core.tests import test_utils
 import feconf
 import python_utils
 
-(base_models,) = models.Registry.import_models([models.NAMES.base_model])
+MYPY = False
+if MYPY:
+    from mypy_imports import *
+else:
+    (base_models,) = models.Registry.import_models([models.NAMES.base_model])
 
 
 class BaseModelUnitTests(test_utils.GenericTestBase):
@@ -45,7 +49,7 @@ class BaseModelUnitTests(test_utils.GenericTestBase):
 
     def test_get_deletion_policy(self):
         # type: () -> None
-        with self.assertRaisesRegexp(
+        with self.assertRaisesRegexp( # type: ignore[no-untyped-call]
             NotImplementedError,
             re.escape(
                 'The get_deletion_policy() method is missing from the '
@@ -55,7 +59,7 @@ class BaseModelUnitTests(test_utils.GenericTestBase):
 
     def test_has_reference_to_user_id(self):
         # type: () -> None
-        with self.assertRaisesRegexp(
+        with self.assertRaisesRegexp( # type: ignore[no-untyped-call]
             NotImplementedError,
             re.escape(
                 'The has_reference_to_user_id() method is missing from the '
@@ -65,11 +69,11 @@ class BaseModelUnitTests(test_utils.GenericTestBase):
 
     def test_error_cases_for_get_method(self):
         # type: () -> None
-        with self.assertRaisesRegexp(
+        with self.assertRaisesRegexp( # type: ignore[no-untyped-call]
             base_models.BaseModel.EntityNotFoundError,
             'Entity for class BaseModel with id Invalid id not found'):
             base_models.BaseModel.get('Invalid id')
-        with self.assertRaisesRegexp(
+        with self.assertRaisesRegexp( # type: ignore[no-untyped-call]
             base_models.BaseModel.EntityNotFoundError,
             'Entity for class BaseModel with id Invalid id not found'):
             base_models.BaseModel.get('Invalid id', strict=True)
@@ -79,7 +83,7 @@ class BaseModelUnitTests(test_utils.GenericTestBase):
 
     def test_base_model_export_data_raises_not_implemented_error(self):
         # type: () -> None
-        with self.assertRaisesRegexp(
+        with self.assertRaisesRegexp( # type: ignore[no-untyped-call]
             NotImplementedError,
             re.escape(
                 'The export_data() method is missing from the '
@@ -89,7 +93,7 @@ class BaseModelUnitTests(test_utils.GenericTestBase):
 
     def test_get_model_association_to_user_raises_not_implemented_error(self):
         # type: () -> None
-        with self.assertRaisesRegexp(
+        with self.assertRaisesRegexp( # type: ignore[no-untyped-call]
             NotImplementedError,
             re.escape(
                 'The get_model_association_to_user() method is missing from '
@@ -99,7 +103,7 @@ class BaseModelUnitTests(test_utils.GenericTestBase):
 
     def test_export_data(self):
         # type: () -> None
-        with self.assertRaisesRegexp(
+        with self.assertRaisesRegexp( # type: ignore[no-untyped-call]
             NotImplementedError,
             re.escape(
                 'The export_data() method is missing from the derived '
@@ -125,7 +129,7 @@ class BaseModelUnitTests(test_utils.GenericTestBase):
         model.delete()
         all_models = [m for m in base_models.BaseModel.get_all()]
         self.assertEqual(len(all_models), 0)
-        with self.assertRaisesRegexp(
+        with self.assertRaisesRegexp( # type: ignore[no-untyped-call]
             base_models.BaseModel.EntityNotFoundError,
             'Entity for class BaseModel with id 1 not found'):
             model.get(model_id)
@@ -174,7 +178,7 @@ class BaseModelUnitTests(test_utils.GenericTestBase):
 
         # Immediately calling `put` again fails, because update_timestamps needs
         # to be called first.
-        with self.assertRaisesRegexp(
+        with self.assertRaisesRegexp( # type: ignore[no-untyped-call]
             Exception, re.escape('did not call update_timestamps()')
         ):
             model.put()
@@ -182,7 +186,7 @@ class BaseModelUnitTests(test_utils.GenericTestBase):
         model = base_models.BaseModel.get_by_id(model.id)
 
         # Getting a fresh model requires update_timestamps too.
-        with self.assertRaisesRegexp(
+        with self.assertRaisesRegexp( # type: ignore[no-untyped-call]
             Exception, re.escape('did not call update_timestamps()')
         ):
             model.put()
@@ -214,8 +218,8 @@ class BaseModelUnitTests(test_utils.GenericTestBase):
         # is set to False and last_updated already has some value.
         models_2 = base_models.BaseModel.get_multi(model_ids)
         base_models.BaseModel.update_timestamps_multi(
-            models_2, update_last_updated_time=False)
-        base_models.BaseModel.put_multi(models_2)
+            models_2, update_last_updated_time=False) # type: ignore[arg-type]
+        base_models.BaseModel.put_multi(models_2) # type: ignore[arg-type]
         for model_id, last_updated in python_utils.ZIP(
                 model_ids, last_updated_values):
             model = base_models.BaseModel.get_by_id(model_id)
@@ -224,8 +228,8 @@ class BaseModelUnitTests(test_utils.GenericTestBase):
         # Field last_updated will get updated because update_last_updated_time
         # is set to True (by default).
         models_3 = base_models.BaseModel.get_multi(model_ids)
-        base_models.BaseModel.update_timestamps_multi(models_3)
-        base_models.BaseModel.put_multi(models_3)
+        base_models.BaseModel.update_timestamps_multi(models_3) # type: ignore[arg-type]
+        base_models.BaseModel.put_multi(models_3) # type: ignore[arg-type]
         for model_id, last_updated in python_utils.ZIP(
                 model_ids, last_updated_values):
             model = base_models.BaseModel.get_by_id(model_id)
@@ -334,7 +338,7 @@ class BaseHumanMaintainedModelTests(test_utils.GenericTestBase):
 
     def test_put(self):
         # type: () -> None
-        with self.assertRaisesRegexp(
+        with self.assertRaisesRegexp( # type: ignore[no-untyped-call]
             NotImplementedError, 'Use put_for_human or put_for_bot instead'):
             self.model_instance.put()
 
@@ -362,7 +366,7 @@ class BaseHumanMaintainedModelTests(test_utils.GenericTestBase):
 
     def test_put_multi(self):
         # type: () -> None
-        with self.assertRaisesRegexp(
+        with self.assertRaisesRegexp( # type: ignore[no-untyped-call]
             NotImplementedError,
             'Use put_multi_for_human or put_multi_for_bot instead'):
             TestBaseHumanMaintainedModel.put_multi([])
@@ -449,7 +453,7 @@ class BaseCommitLogEntryModelTests(test_utils.GenericTestBase):
         # type: () -> None
         # Raise NotImplementedError as _get_instance_id is to be overwritten
         # in child classes of BaseCommitLogEntryModel.
-        with self.assertRaisesRegexp(
+        with self.assertRaisesRegexp( # type: ignore[no-untyped-call]
             NotImplementedError,
             re.escape(
                 'The get_instance_id() method is missing from the derived '
@@ -609,7 +613,7 @@ class VersionedModelTests(test_utils.GenericTestBase):
 
     def test_retrieval_of_multiple_version_models_for_fake_id(self):
         # type: () -> None
-        with self.assertRaisesRegexp(
+        with self.assertRaisesRegexp( # type: ignore[no-untyped-call]
             ValueError, 'The given entity_id fake_id is invalid'):
             TestVersionedModel.get_multi_versions(
                 'fake_id', [1, 2, 3])
@@ -620,7 +624,7 @@ class VersionedModelTests(test_utils.GenericTestBase):
         model1.commit(feconf.SYSTEM_COMMITTER_ID, '', [])
         model1.delete(feconf.SYSTEM_COMMITTER_ID, 'delete')
 
-        with self.assertRaisesRegexp(
+        with self.assertRaisesRegexp( # type: ignore[no-untyped-call]
             Exception, 'This model instance has been deleted.'):
             model1.commit(feconf.SYSTEM_COMMITTER_ID, '', [])
 
@@ -628,23 +632,23 @@ class VersionedModelTests(test_utils.GenericTestBase):
         # type: () -> None
         model1 = TestVersionedModel(id='model_id1')
         model1.SNAPSHOT_METADATA_CLASS = None
-        with self.assertRaisesRegexp(
+        with self.assertRaisesRegexp( # type: ignore[no-untyped-call]
             Exception, 'No snapshot metadata class defined.'):
             model1.commit(feconf.SYSTEM_COMMITTER_ID, '', [])
 
         model1 = TestVersionedModel(id='model_id1')
         model1.SNAPSHOT_CONTENT_CLASS = None
-        with self.assertRaisesRegexp(
+        with self.assertRaisesRegexp( # type: ignore[no-untyped-call]
             Exception, 'No snapshot content class defined.'):
             model1.commit(feconf.SYSTEM_COMMITTER_ID, '', [])
 
         model1 = TestVersionedModel(id='model_id1')
-        with self.assertRaisesRegexp(
+        with self.assertRaisesRegexp( # type: ignore[no-untyped-call]
             Exception, 'Expected commit_cmds to be a list of dicts, received'):
             model1.commit(feconf.SYSTEM_COMMITTER_ID, '', {})
 
         model1 = TestVersionedModel(id='model_id1')
-        with self.assertRaisesRegexp(
+        with self.assertRaisesRegexp( # type: ignore[no-untyped-call]
             Exception, 'Expected commit_cmds to be a list of dicts, received'):
             model1.commit(feconf.SYSTEM_COMMITTER_ID, '', [[]])
 
@@ -652,7 +656,7 @@ class VersionedModelTests(test_utils.GenericTestBase):
         # type: () -> None
         model1 = TestVersionedModel(id='model_id1')
 
-        with self.assertRaisesRegexp(
+        with self.assertRaisesRegexp( # type: ignore[no-untyped-call]
             NotImplementedError,
             re.escape(
                 'The put() method is missing from the derived '
@@ -735,20 +739,20 @@ class VersionedModelTests(test_utils.GenericTestBase):
         model1 = TestVersionedModel(id='model_id1')
 
         # Test for invalid commit command.
-        with self.assertRaisesRegexp(
+        with self.assertRaisesRegexp( # type: ignore[no-untyped-call]
             Exception, 'Invalid commit_cmd:'):
             model1.commit(
                 feconf.SYSTEM_COMMITTER_ID, '', [{'invalid_cmd': 'value'}])
 
         # Test for invalid change list command.
-        with self.assertRaisesRegexp(
+        with self.assertRaisesRegexp( # type: ignore[no-untyped-call]
             Exception, 'Invalid change list command:'):
             model1.commit(feconf.SYSTEM_COMMITTER_ID, '', [{'cmd': 'AUTO'}])
 
     def test_revert_raises_error_when_not_allowed(self):
         # type: () -> None
         model1 = TestVersionedModel(id='model_id1')
-        with self.assertRaisesRegexp(
+        with self.assertRaisesRegexp( # type: ignore[no-untyped-call]
             Exception,
             'Reverting objects of type TestVersionedModel is not allowed.'):
             model1.revert(model1, feconf.SYSTEM_COMMITTER_ID, '', 1)
@@ -758,7 +762,7 @@ class VersionedModelTests(test_utils.GenericTestBase):
         model1 = TestVersionedModel(id='model_id1')
         model1.commit(feconf.SYSTEM_COMMITTER_ID, '', [])
 
-        with self.assertRaisesRegexp(
+        with self.assertRaisesRegexp( # type: ignore[no-untyped-call]
             Exception,
             'Invalid version number 10 for model TestVersionedModel with id '
             'model_id1'):
@@ -777,7 +781,7 @@ class VersionedModelTests(test_utils.GenericTestBase):
             TestVersionedModel.get_version('nonexistent_id1', 4, strict=False))
         self.assertIsNone(version_model)
 
-        with self.assertRaisesRegexp(
+        with self.assertRaisesRegexp( # type: ignore[no-untyped-call]
             base_models.BaseModel.EntityNotFoundError,
             'Entity for class TestVersionedModel with id nonexistent_id1 '
             'not found'):
@@ -787,7 +791,7 @@ class VersionedModelTests(test_utils.GenericTestBase):
             TestVersionedModel.get_version('model_id1', 4, strict=False))
         self.assertIsNone(version_model)
 
-        with self.assertRaisesRegexp(
+        with self.assertRaisesRegexp( # type: ignore[no-untyped-call]
             base_models.BaseModel.EntityNotFoundError,
             'Entity for class TestSnapshotContentModel with id model_id1-4 '
             'not found'):
@@ -811,13 +815,13 @@ class VersionedModelTests(test_utils.GenericTestBase):
         model1.commit(feconf.SYSTEM_COMMITTER_ID, '', [])
         model1.commit(feconf.SYSTEM_COMMITTER_ID, '', [])
 
-        with self.assertRaisesRegexp(
+        with self.assertRaisesRegexp( # type: ignore[no-untyped-call]
             ValueError,
             'Requested version number 3 cannot be higher than the current '
             'version number 2.'):
             TestVersionedModel.get_multi_versions('model_id1', [1, 2, 3])
 
-        with self.assertRaisesRegexp(
+        with self.assertRaisesRegexp( # type: ignore[no-untyped-call]
             ValueError,
             'At least one version number is invalid'):
             TestVersionedModel.get_multi_versions('model_id1', [1, 1.5, 2])
@@ -841,7 +845,7 @@ class BaseModelTests(test_utils.GenericTestBase):
             TestBaseModel, 'get_by_id', types.MethodType(
                 lambda _, __: True, TestBaseModel))
 
-        assert_raises_regexp_context_manager = self.assertRaisesRegexp(
+        assert_raises_regexp_context_manager = self.assertRaisesRegexp( # type: ignore[no-untyped-call]
             Exception, 'New id generator is producing too many collisions.')
 
         with assert_raises_regexp_context_manager, get_by_id_swap:

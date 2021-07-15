@@ -25,7 +25,11 @@ import feconf
 
 from typing import Any, Dict, Text
 
-datastore_services = models.Registry.import_datastore_services()
+MYPY = False
+if MYPY:
+    from mypy_imports import *
+else:
+    datastore_services = models.Registry.import_datastore_services()
 
 
 class ActivityReferencesModel(base_models.BaseModel):
